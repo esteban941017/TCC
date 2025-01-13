@@ -1,4 +1,4 @@
-import Message, { MessageTypes } from '../../src/domain/Message';
+import { MessageTypes } from '../../src/domain/Message';
 import Audio, { AudioContent } from '../../src/domain/MessageTypes/Audio';
 import Contacts, {
   ContactContent,

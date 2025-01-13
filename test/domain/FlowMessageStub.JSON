@@ -1,0 +1,283 @@
+{
+  "version": "6.0",
+  "screens": [
+    {
+      "id": "screen_gblsco",
+      "title": "Screen 1",
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "flow_path",
+            "children": [
+              { "type": "TextHeading", "text": "Form large heading" },
+              { "type": "TextSubheading", "text": "Form small heading" },
+              { "type": "TextCaption", "text": "Form Caption" },
+              {
+                "type": "TextBody",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+              },
+              {
+                "type": "Image",
+                "src": "https://imagesrc.com",
+                "height": 400,
+                "scale-type": "contain"
+              },
+              {
+                "type": "TextInput",
+                "name": "Text_6ee30b",
+                "label": "Text",
+                "required": true,
+                "input-type": "text",
+                "helper-text": "Please write your name"
+              },
+              {
+                "type": "TextInput",
+                "label": "Password",
+                "name": "Password_bdaeaa",
+                "required": true,
+                "input-type": "password",
+                "helper-text": "Write your password"
+              },
+              {
+                "type": "TextInput",
+                "label": "email",
+                "name": "email_3d1f1d",
+                "required": true,
+                "input-type": "email",
+                "helper-text": "Write your email"
+              },
+              {
+                "type": "Footer",
+                "label": "Continue",
+                "on-click-action": {
+                  "name": "navigate",
+                  "next": { "type": "screen", "name": "screen_nmlxsv" },
+                  "payload": {
+                    "screen_0_Text_0": "${form.Text_6ee30b}",
+                    "screen_0_Password_1": "${form.Password_bdaeaa}",
+                    "screen_0_email_2": "${form.email_3d1f1d}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "screen_nmlxsv",
+      "title": "Screen 2",
+      "data": {
+        "screen_0_Text_0": { "type": "string", "__example__": "Example" },
+        "screen_0_Password_1": { "type": "string", "__example__": "Example" },
+        "screen_0_email_2": { "type": "string", "__example__": "Example" }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "flow_path",
+            "children": [
+              {
+                "type": "TextInput",
+                "name": "Number_6e1418",
+                "label": "Number",
+                "required": true,
+                "input-type": "number",
+                "helper-text": "Write your number"
+              },
+              {
+                "type": "TextInput",
+                "label": "Passcode",
+                "name": "Passcode_b35fb1",
+                "required": true,
+                "input-type": "passcode",
+                "helper-text": "Write passcode"
+              },
+              {
+                "type": "TextInput",
+                "label": "Phone",
+                "name": "Phone_c5d165",
+                "required": true,
+                "input-type": "phone",
+                "helper-text": "Write phone"
+              },
+              {
+                "type": "TextArea",
+                "label": "Text",
+                "required": true,
+                "name": "Text_5c140f",
+                "helper-text": "Write paragraph"
+              },
+              {
+                "type": "DatePicker",
+                "label": "Date",
+                "required": true,
+                "name": "Date_c6ecd8",
+                "helper-text": "Write date"
+              },
+              {
+                "type": "RadioButtonsGroup",
+                "label": "Single choice",
+                "required": true,
+                "name": "Single_choice_28f935",
+                "data-source": [
+                  { "id": "0_Option_1", "title": "Option 1" },
+                  { "id": "1_Option_2", "title": "Option 2" },
+                  { "id": "2_Option_3", "title": "Option 3" }
+                ]
+              },
+              {
+                "type": "CheckboxGroup",
+                "label": "Multiple choice",
+                "required": true,
+                "name": "Multiple_choice_bf6b94",
+                "data-source": [
+                  { "id": "0_Option_1", "title": "Option 1" },
+                  { "id": "1_Option_2", "title": "Option 2" },
+                  { "id": "2_Option_3", "title": "Option 3" }
+                ]
+              },
+              {
+                "type": "Dropdown",
+                "label": "Dropdown",
+                "required": true,
+                "name": "Dropdown_797248",
+                "data-source": [
+                  { "id": "0_Option_1", "title": "Option 1" },
+                  { "id": "1_Option_2", "title": "Option 2" },
+                  { "id": "2_Option_3", "title": "Option 3" }
+                ]
+              },
+              {
+                "type": "Footer",
+                "label": "Continue",
+                "on-click-action": {
+                  "name": "navigate",
+                  "next": { "type": "screen", "name": "screen_puwtee" },
+                  "payload": {
+                    "screen_1_Number_0": "${form.Number_6e1418}",
+                    "screen_1_Passcode_1": "${form.Passcode_b35fb1}",
+                    "screen_1_Phone_2": "${form.Phone_c5d165}",
+                    "screen_1_Text_3": "${form.Text_5c140f}",
+                    "screen_1_Date_4": "${form.Date_c6ecd8}",
+                    "screen_1_Single_choice_5": "${form.Single_choice_28f935}",
+                    "screen_1_Multiple_choice_6": "${form.Multiple_choice_bf6b94}",
+                    "screen_1_Dropdown_7": "${form.Dropdown_797248}",
+                    "screen_0_Text_0": "${data.screen_0_Text_0}",
+                    "screen_0_Password_1": "${data.screen_0_Password_1}",
+                    "screen_0_email_2": "${data.screen_0_email_2}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "screen_puwtee",
+      "title": "Screen 3",
+      "data": {
+        "screen_1_Number_0": { "type": "string", "__example__": "Example" },
+        "screen_1_Passcode_1": { "type": "string", "__example__": "Example" },
+        "screen_1_Phone_2": { "type": "string", "__example__": "Example" },
+        "screen_1_Text_3": { "type": "string", "__example__": "Example" },
+        "screen_1_Date_4": { "type": "string", "__example__": "Example" },
+        "screen_1_Single_choice_5": {
+          "type": "string",
+          "__example__": "Example"
+        },
+        "screen_1_Multiple_choice_6": {
+          "type": "array",
+          "items": { "type": "string" },
+          "__example__": []
+        },
+        "screen_1_Dropdown_7": { "type": "string", "__example__": "Example" },
+        "screen_0_Text_0": { "type": "string", "__example__": "Example" },
+        "screen_0_Password_1": { "type": "string", "__example__": "Example" },
+        "screen_0_email_2": { "type": "string", "__example__": "Example" }
+      },
+      "terminal": true,
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "flow_path",
+            "children": [
+              {
+                "type": "OptIn",
+                "label": "Teste Opt in",
+                "required": true,
+                "name": "Teste_Opt_in_1022cb",
+                "on-click-action": {
+                  "name": "navigate",
+                  "next": {
+                    "name": "OPTIN_SCREEN_screen_zknrow",
+                    "type": "screen"
+                  },
+                  "payload": {}
+                }
+              },
+              {
+                "type": "OptIn",
+                "label": "Label",
+                "required": true,
+                "name": "Label_9267c4"
+              },
+              {
+                "type": "Footer",
+                "label": "Continue",
+                "on-click-action": {
+                  "name": "complete",
+                  "payload": {
+                    "screen_2_Teste_Opt_in_0": "${form.Teste_Opt_in_1022cb}",
+                    "screen_2_Label_1": "${form.Label_9267c4}",
+                    "screen_1_Number_0": "${data.screen_1_Number_0}",
+                    "screen_1_Passcode_1": "${data.screen_1_Passcode_1}",
+                    "screen_1_Phone_2": "${data.screen_1_Phone_2}",
+                    "screen_1_Text_3": "${data.screen_1_Text_3}",
+                    "screen_1_Date_4": "${data.screen_1_Date_4}",
+                    "screen_1_Single_choice_5": "${data.screen_1_Single_choice_5}",
+                    "screen_1_Multiple_choice_6": "${data.screen_1_Multiple_choice_6}",
+                    "screen_1_Dropdown_7": "${data.screen_1_Dropdown_7}",
+                    "screen_0_Text_0": "${data.screen_0_Text_0}",
+                    "screen_0_Password_1": "${data.screen_0_Password_1}",
+                    "screen_0_email_2": "${data.screen_0_email_2}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "OPTIN_SCREEN_screen_zknrow",
+      "title": "teste",
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "flow_path",
+            "children": [
+              {
+                "type": "Image",
+                "src": "https://imagesrc2.com",
+                "height": 400,
+                "scale-type": "contain"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
