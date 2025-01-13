@@ -23,15 +23,14 @@ export enum MessageTypes {
   INTERACTIVE_CALL_TO_ACTION = 'interactive',
   FLOW = 'flow',
   INTERACTIVE_LIST = 'interactive',
-  INTERACTIVE_REPLY_BUTTONS = 'interactiveReplyButtons',
+  INTERACTIVE_REPLY_BUTTONS = 'interactive',
   LOCATION = 'location',
-  LOCATION_REQUEST = 'locationRequest',
+  LOCATION_REQUEST = 'interactive',
   REACTION = 'reaction',
   STICKER = 'sticker',
   TEMPLATE = 'template',
   TEXT = 'text',
   VIDEO = 'video',
-  READ_RECEIPT = 'readReceipt',
 }
 
 type Content = any;
