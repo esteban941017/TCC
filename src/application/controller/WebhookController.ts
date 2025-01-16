@@ -27,16 +27,7 @@ routes.get('/verification', async (req, res) => {
   }
 });
 
-// routes.post('/', async (req, res) => {
-//   try {
-//   } catch (error) {
-//     console.error(error);
-//     return res
-//       .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-//       .json({ message: 'Internal Server Error' });
-//   }
-// });
-
 export default routes;
 
 //http://localhost:8000/meu-cofrinho/webhook/verification?hub.mode=subscribe&hub.challenge=1158201444&hub.verify_token=a45c0c73-1b66-40a3-a969-1aea5c433844
+//https://vhspygdzy2.execute-api.us-east-1.amazonaws.com/dev/meu-cofrinho/webhook/verification?hub.mode=subscribe&hub.challenge=1158201444&hub.verify_token=a45c0c73-1b66-40a3-a969-1aea5c433844

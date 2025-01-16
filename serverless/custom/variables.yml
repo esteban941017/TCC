@@ -1,0 +1,5 @@
+SERVICE_NAME_PREFIX: ${self:service}
+SECRETS: ${ssm:/aws/reference/secretsmanager/${self:custom.SERVICE_NAME_PREFIX}}
+
+esbuild:
+  bundle: true

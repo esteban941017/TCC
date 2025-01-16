@@ -1,0 +1,10 @@
+Resources:
+  WppWelcomeQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: WppWelcomeQueue
+      VisibilityTimeout: 300
+      DelaySeconds: 0
+      MaximumMessageSize: 262144
+      MessageRetentionPeriod: 345600
+      ReceiveMessageWaitTimeSeconds: 0

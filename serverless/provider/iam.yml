@@ -1,0 +1,6 @@
+# statements:
+#   - Effect: Allow
+#     Action:
+#       - sqs:SendMessage
+#       - sqs:GetQueueAttributes
+#     Resource: '*'
