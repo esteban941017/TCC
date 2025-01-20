@@ -12,10 +12,11 @@ provider:
   stage: ${opt:stage, "dev"}
   region: ${opt:region, "us-east-1"}
   environment: ${file(./serverless/provider/environment.yml)}
+  deploymentBucket:
+    name: ${opt:stage, "dev"}-eratechnologies-deployment-bucket
   # iam:
   #   role: ${file(./serverless/provider/iam.yml)}
-  deploymentBucket:
-    name: ${self:custom.SECRETS.DEPLOYMENT_BUCKET}
+
 functions:
   Api:
     handler: src/main.ApiHandler
@@ -30,14 +31,8 @@ functions:
           path: /
           cors: false
 
-# resources:
-#   - ${file(./serverless/resources/sqs.yml)}
-
-package:
-  individually: true
-  excludeDevDependencies: true
-  patterns:
-    - 'src/**/*.js'
-    - 'data/*'
-
 custom: ${file(./serverless/custom/variables.yml)}
+
+resources:
+  - ${file(./serverless/resources/sqs-message-queue.yml)}
+  - ${file(./serverless/resources/dynamo-account-table.yml)}

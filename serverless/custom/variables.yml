@@ -1,5 +1,14 @@
-SERVICE_NAME_PREFIX: ${self:service}
-SECRETS: ${ssm:/aws/reference/secretsmanager/${self:custom.SERVICE_NAME_PREFIX}}
+NODE_ENV: ${self:provider.stage}
 
-esbuild:
-  bundle: true
+serviceNamePrefix: ${self:service}-${sls:stage}
+ssmPrefix: /meucofrinho/${self:custom.serviceNamePrefix}
+
+secretsName: meucofrinho-secrets-${sls:stage}
+secrets: ${ssm:/aws/reference/secretsmanager/${self:custom.secretsName}}
+
+messageQueueName: ${self:custom.serviceNamePrefix}-message-queue
+accountTableName: ${self:custom.serviceNamePrefix}-account-table
+
+deletionPolicy:
+  dev: Delete
+  prod: Retain

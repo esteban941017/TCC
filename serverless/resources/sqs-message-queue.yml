@@ -1,0 +1,27 @@
+Resources:
+  MessageQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:custom.messageQueueName}
+      VisibilityTimeout: 900
+
+  MessageQueueName:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: ${self:custom.ssmPrefix}/MESSAGE_QUEUE_NAME
+      Type: String
+      Value: ${self:custom.messageQueueName}
+
+  MessageQueueArn:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: ${self:custom.ssmPrefix}/MESSAGE_QUEUE_ARN
+      Type: String
+      Value: !GetAtt MessageQueue.Arn
+
+  MessageQueueUrl:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: ${self:custom.ssmPrefix}/MESSAGE_QUEUE_URL
+      Type: String
+      Value: !Ref MessageQueue

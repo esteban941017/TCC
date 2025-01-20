@@ -1,0 +1,29 @@
+Resources:
+  AccountTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: ${self:custom.deletionPolicy.${sls:stage}}
+    Properties:
+      TableName: ${self:custom.accountTableName}
+      AttributeDefinitions:
+        - AttributeName: phone
+          AttributeType: S
+      KeySchema:
+        - AttributeName: phone
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  AccountTableName:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: ${self:custom.ssmPrefix}/ACCOUNT_TABLE_NAME
+      Type: String
+      Value: ${self:custom.accountTableName}
+
+  AccountTableArn:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: ${self:custom.ssmPrefix}/ACCOUNT_TABLE_ARN
+      Type: String
+      Value: !GetAtt AccountTable.Arn
