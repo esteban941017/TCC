@@ -3,3 +3,4 @@ test/setup.ts
 assets
 .env
 coverage
+.serverless
