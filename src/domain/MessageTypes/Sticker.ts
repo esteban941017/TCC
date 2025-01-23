@@ -11,5 +11,6 @@ export default class Sticker extends Message {
 }
 
 export type StickerContent = {
-  id: string;
+  id?: string;
+  link?: string;
 };

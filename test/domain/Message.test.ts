@@ -33,7 +33,7 @@ describe('Message domain test', () => {
   test('Should create an audio message', () => {
     const inputCreateMessage: { to: string; content: AudioContent } = {
       to: '5531990723700',
-      content: { id: 'https://teste.com' },
+      content: { link: 'https://teste.com' },
     };
     const outputCreateMessage = Audio.create(
       inputCreateMessage.to,

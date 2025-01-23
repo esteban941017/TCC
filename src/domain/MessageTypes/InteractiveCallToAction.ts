@@ -10,23 +10,25 @@ export default class InteractiveCallToAction extends Message {
   }
 }
 
-export type InteractiveCallToActionContent = {
-  type: 'cta_url';
-  header?: {
-    type: 'text';
-    text: string;
-  };
-  body: {
-    text: string;
-  };
-  footer?: {
-    text: string;
-  };
-  action: {
-    name: string;
-    parameters: {
-      display_text: string;
-      url: string;
-    };
-  };
-};
+export type InteractiveCallToActionContent =
+  | {
+      type: 'cta_url';
+      header?: {
+        type: 'text';
+        text: string;
+      };
+      body: {
+        text: string;
+      };
+      footer?: {
+        text: string;
+      };
+      action: {
+        name: string;
+        parameters: {
+          display_text: string;
+          url: string;
+        };
+      };
+    }
+  | any;

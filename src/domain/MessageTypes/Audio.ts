@@ -10,4 +10,4 @@ export default class Audio extends Message {
   }
 }
 
-export type AudioContent = { id: string };
+export type AudioContent = { id?: string; link?: string };
