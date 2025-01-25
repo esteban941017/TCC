@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { HttpStatusCodes } from '../util/HttpStatusCodes';
+import { handler } from '../../event/Webhook';
 
 const routes = Router();
 const verificationToken = process.env.META_VERIFICATION_TOKEN;
 
-routes.get('/verification', async (req, res) => {
+routes.get('/webhook', async (req, res) => {
   try {
     const mode = req.query['hub.mode'];
     const challenge = Number(req.query['hub.challenge']);
@@ -26,6 +27,18 @@ routes.get('/verification', async (req, res) => {
     });
   }
 });
+
+// routes.post('/webhook', async (req, res) => {
+//   try {
+//     const webhookHandlerResponse = await handler(req);
+//     return res.status(HttpStatusCodes.OK).json({ message: 'teste' });
+//   } catch (error) {
+//     console.error(error);
+//     return res
+//       .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+//       .json({ message: 'Internal Server Error' });
+//   }
+// });
 
 export default routes;
 
