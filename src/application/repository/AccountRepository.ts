@@ -1,14 +1,12 @@
+import Account from '../../domain/Account';
 import DynamoDBTableGateway from '../../infra/database/DynamoDBTableGateway';
 
 export default class AccountRepository {
   constructor(private readonly table: DynamoDBTableGateway) {}
 
-  async saveAccount(phone: string) {
-    await this.table.put({ phone });
-  }
-
-  async updateAccount(phone: string, data: any) {
-    await this.table.put({ phone, data });
+  async createAccount(account: Account) {
+    await this.table.put(account);
+    return account;
   }
 
   async getByPhone(phone: string) {
@@ -24,6 +22,16 @@ export default class AccountRepository {
     if (!Items) return null;
     const account = Items.shift();
     if (!account) return null;
+    return Account.restore(account.phone, account.accountData);
+  }
+
+  async updateAccount(account: Account) {
+    await this.table.put(account);
     return account;
+  }
+
+  async deleteAccount(phone: string) {
+    await this.table.delete({ phone });
+    return true;
   }
 }

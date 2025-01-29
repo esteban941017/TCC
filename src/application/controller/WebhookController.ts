@@ -5,7 +5,7 @@ import { handler } from '../../event/Webhook';
 const routes = Router();
 const verificationToken = process.env.META_VERIFICATION_TOKEN;
 
-routes.get('/webhook', async (req, res) => {
+routes.get('/', async (req, res) => {
   try {
     const mode = req.query['hub.mode'];
     const challenge = Number(req.query['hub.challenge']);

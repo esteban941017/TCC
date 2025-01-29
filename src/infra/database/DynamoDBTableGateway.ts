@@ -1,18 +1,34 @@
+import { DynamoDB } from '@aws-sdk/client-dynamodb';
 import {
+  DynamoDBDocument,
   DynamoDBDocumentClient,
   PutCommand,
-  UpdateCommandInput,
-  UpdateCommand,
   QueryCommand,
   QueryCommandInput,
   QueryCommandOutput,
+  DeleteCommand,
 } from '@aws-sdk/lib-dynamodb';
+export const TYPE_INDEX = 'type_index';
 
 export default class DynamoDBTableGateway {
-  constructor(
-    private readonly dynamoDBClient: DynamoDBDocumentClient,
-    private readonly tableName: string,
-  ) {}
+  private readonly dynamoDBClient: DynamoDBDocumentClient =
+    DynamoDBDocument.from(
+      new DynamoDB({
+        region: process.env.AWS_REGION,
+      }),
+      {
+        marshallOptions: {
+          convertEmptyValues: false,
+          removeUndefinedValues: true,
+          convertClassInstanceToMap: true,
+        },
+        unmarshallOptions: {
+          wrapNumbers: false,
+        },
+      },
+    );
+
+  constructor(private readonly tableName: string) {}
 
   async put(item: any) {
     const command = new PutCommand({
@@ -37,9 +53,8 @@ export default class DynamoDBTableGateway {
 
     const result = await this.query(params);
     let lastKey: any = result.LastEvaluatedKey;
-
     for (const element of result.Items ?? []) {
-      const rawData = element.data;
+      const rawData = element;
       allData.push(rawData);
     }
 
@@ -55,5 +70,15 @@ export default class DynamoDBTableGateway {
     }
 
     return allData;
+  }
+
+  async delete(params: { [key: string]: any }) {
+    const command = new DeleteCommand({
+      Key: { ...params },
+      TableName: this.tableName,
+    });
+
+    const result = await this.dynamoDBClient.send(command);
+    return result;
   }
 }
