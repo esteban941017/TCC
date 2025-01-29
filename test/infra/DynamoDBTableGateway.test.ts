@@ -9,14 +9,18 @@ describe('DynamoTableGateway test suite', () => {
     );
   });
   test('Should write to dynamo', async () => {
-    const inputCreateItem = { phone: '553190723700', accountData: {} };
+    const inputCreateItem = {
+      phone: '55' + Math.floor(Math.random() * 10000000000),
+      accountData: {},
+    };
     const outputCreateItem = await dynamoDBTableGateway.put(inputCreateItem);
     expect(outputCreateItem.$metadata.httpStatusCode).toBe(200);
+    await dynamoDBTableGateway.delete({ phone: inputCreateItem.phone });
   });
 
   test('Should query an item', async () => {
     const inputCreateItem = {
-      phone: '553190723700',
+      phone: '55' + Math.floor(Math.random() * 10000000000),
       accountData: {
         createdAt: new Date().toISOString(),
       },
@@ -39,11 +43,12 @@ describe('DynamoTableGateway test suite', () => {
     expect(
       outputGetData.Items && outputGetData.Items[0].accountData.createdAt,
     ).toBeDefined();
+    await dynamoDBTableGateway.delete({ phone: inputCreateItem.phone });
   });
 
   test('Should query with pagination', async () => {
     const inputCreateItem = {
-      phone: '553190723700',
+      phone: '55' + Math.floor(Math.random() * 10000000000),
       accountData: {
         createdAt: new Date().toISOString(),
       },
@@ -63,11 +68,12 @@ describe('DynamoTableGateway test suite', () => {
     expect(outputGetData.length).toBe(1);
     expect(outputGetData[0].phone).toBe(inputCreateItem.phone);
     expect(outputGetData[0].accountData).toEqual(inputCreateItem.accountData);
+    await dynamoDBTableGateway.delete({ phone: inputCreateItem.phone });
   });
 
   test('Should delete an item', async () => {
     const inputCreateItem = {
-      phone: '553190723700',
+      phone: '55' + Math.floor(Math.random() * 10000000000),
       accountData: {
         createdAt: new Date().toISOString(),
       },
@@ -76,5 +82,6 @@ describe('DynamoTableGateway test suite', () => {
     const inputDeleteData = { phone: inputCreateItem.phone };
     const outputDeleteData = await dynamoDBTableGateway.delete(inputDeleteData);
     expect(outputDeleteData.$metadata.httpStatusCode).toBe(200);
+    await dynamoDBTableGateway.delete({ phone: inputCreateItem.phone });
   });
 });

@@ -5,7 +5,6 @@ describe('Get webhook message variables unit test', () => {
   test('Should get all message variables from webhook payload', () => {
     const inputGetVariables = webhookEventPayload;
     const outputGetVariables = getMessageVariables(inputGetVariables);
-    console.dir(outputGetVariables, { depth: null });
     expect(outputGetVariables?.from).toBe(
       inputGetVariables.entry[0].changes[0].value.messages[0].from,
     );
