@@ -36,7 +36,7 @@ export function getMessageVariables(webhookMessage: any) {
     name,
     from,
     timestamp,
-    messageBody: messageBody.toLowerCase(),
+    messageBody: messageBody,
     type,
   };
 }

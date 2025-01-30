@@ -18,7 +18,7 @@ describe('Get webhook message variables unit test', () => {
       inputGetVariables.entry[0].changes[0].value.messages[0].timestamp,
     );
     expect(outputGetVariables?.messageBody).toBe(
-      inputGetVariables.entry[0].changes[0].value.messages[0].text.body.toLowerCase(),
+      inputGetVariables.entry[0].changes[0].value.messages[0].text.body,
     );
     expect(outputGetVariables?.type).toBe(
       inputGetVariables.entry[0].changes[0].value.messages[0].type,

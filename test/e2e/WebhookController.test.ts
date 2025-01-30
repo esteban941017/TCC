@@ -26,12 +26,12 @@ describe('Webhook Controller', () => {
   afterEach(async () => {
     jest.restoreAllMocks();
     const account = await accountRepository.getByPhone('553190723700');
-    if (account) await accountRepository.deleteAccount('553190723700');
+    // if (account) await accountRepository.deleteAccount('553190723700');
   });
 
   afterAll(async () => {
     const account = await accountRepository.getByPhone('553190723700');
-    if (account) await accountRepository.deleteAccount('553190723700');
+    // if (account) await accountRepository.deleteAccount('553190723700');
   });
 
   test('GET / - should verify webhook', async () => {
@@ -89,5 +89,55 @@ describe('Webhook Controller', () => {
     expect(outputFirstMessage.body).toBe('Name message sent');
     expect(outputSecondMessage.status).toBe(HttpStatusCodes.OK);
     expect(outputSecondMessage.body).toBe('Home message sent');
+  });
+
+  test('POST /test - should send invalid message if selected option is invalid', async () => {
+    const inputFirstMessage = webhookEventPayload;
+    inputFirstMessage.entry[0].changes[0].value.messages[0].text.body = 'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFirstMessage);
+    const inputSecondMessage = webhookEventPayload;
+    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Esteban Ramirez';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSecondMessage);
+    const inputThirdMessage = webhookEventPayload;
+    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body = 'Test';
+    const outputThirdMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputThirdMessage);
+    expect(outputThirdMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputThirdMessage.body).toBe('Invalid message sent');
+  });
+
+  test('POST /test - should register a category', async () => {
+    const inputFirstMessage = webhookEventPayload;
+    inputFirstMessage.entry[0].changes[0].value.messages[0].text.body = 'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFirstMessage);
+    const inputSecondMessage = webhookEventPayload;
+    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Esteban Ramirez';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSecondMessage);
+    const inputThirdMessage = webhookEventPayload;
+    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body = '3';
+    const outputThirdMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputThirdMessage);
+    const inputFourthMessage = webhookEventPayload;
+    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Minha Categoria';
+    const outputFourthMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFourthMessage);
+    expect(outputThirdMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputThirdMessage.body).toBe('Register category message sent');
+    expect(outputFourthMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputFourthMessage.body).toBe('Registered category message sent');
   });
 });

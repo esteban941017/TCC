@@ -9,6 +9,9 @@ export const MessageLibrary = {
   5. Registrar um grupo
   6. Consultar os meus grupos
   7. Sair`,
+  registerCategory: 'Qual o nome da categoria?',
+  registeredCategory: 'Categoria {{categoryName}} registrada',
+  invalid: 'Por favor, selecione uma opção correta',
 };
 
 /*

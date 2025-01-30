@@ -13,7 +13,9 @@ describe('Account domain test', () => {
       phone: '553190723700',
       accountData: {
         createdAt: new Date().toISOString(),
+        name: 'Test name',
         currentPage: 'home',
+        categories: [],
       },
     };
     const outputRestoreAccount = Account.restore(
