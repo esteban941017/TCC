@@ -22,7 +22,6 @@ export default class AccountService {
   async updateAccount(phone: string, data: any) {
     const account = await this.accountRepository.getByPhone(phone);
     if (!account) throw new AccountNotFound('Account not found');
-    console.log(data);
     const updatedAccount = Account.restore(phone, {
       ...account.accountData,
       ...data,

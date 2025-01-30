@@ -13,6 +13,7 @@ describe('Account domain test', () => {
       phone: '553190723700',
       accountData: {
         createdAt: new Date().toISOString(),
+        currentPage: 'home',
       },
     };
     const outputRestoreAccount = Account.restore(
@@ -21,7 +22,7 @@ describe('Account domain test', () => {
     );
     expect(outputRestoreAccount.phone).toBe(inputRestoreAccount.phone);
     expect(outputRestoreAccount.accountData.createdAt).toEqual(
-      new Date(inputRestoreAccount.accountData.createdAt),
+      inputRestoreAccount.accountData.createdAt,
     );
   });
 });

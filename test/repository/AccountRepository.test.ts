@@ -15,17 +15,18 @@ describe('Account repository test', () => {
 
   test('Should create an account', async () => {
     const inputCreateAccount = {
-      phone: '553190723700',
+      phone: '55' + Math.floor(Math.random() * 10000000000),
     };
     const account = Account.create(inputCreateAccount.phone);
     const outputCreateAccount = await accountRepository.createAccount(account);
     expect(outputCreateAccount.phone).toBe(inputCreateAccount.phone);
     expect(outputCreateAccount.accountData.createdAt).toBeDefined();
+    await accountRepository.deleteAccount(inputCreateAccount.phone);
   });
 
   test('Should get an account by phone', async () => {
     const inputCreateAccount = {
-      phone: '553190723700',
+      phone: '55' + Math.floor(Math.random() * 10000000000),
     };
     const account = Account.create(inputCreateAccount.phone);
     await accountRepository.createAccount(account);
@@ -33,11 +34,12 @@ describe('Account repository test', () => {
     const outputGetByPhone =
       await accountRepository.getByPhone(inputGetByPhone);
     expect(outputGetByPhone?.phone).toBe(inputGetByPhone);
+    await accountRepository.deleteAccount(inputCreateAccount.phone);
   });
 
   test('Should update an acount', async () => {
     const inputCreateAccount = {
-      phone: '553190723700',
+      phone: '55' + Math.floor(Math.random() * 10000000000),
     };
     const account = Account.create(inputCreateAccount.phone);
     await accountRepository.createAccount(account);
@@ -54,10 +56,13 @@ describe('Account repository test', () => {
     expect(outputUpdateAccount?.accountData).toEqual(
       inputUpdateAccount.accountData,
     );
+    await accountRepository.deleteAccount(inputCreateAccount.phone);
   });
 
   test('Should delete an account', async () => {
-    const inputCreateAccount = { phone: '553190723700' };
+    const inputCreateAccount = {
+      phone: '55' + Math.floor(Math.random() * 10000000000),
+    };
     const account = Account.create(inputCreateAccount.phone);
     await accountRepository.createAccount(account);
     const inputDeleteAccount = account.phone;
