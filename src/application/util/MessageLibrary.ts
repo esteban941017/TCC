@@ -2,15 +2,28 @@ export const MessageLibrary = {
   name: 'Qual o seu nome?',
   home: `Oi {{name}}, como posso ajudar?
   
-  1. Registrar uma despesa
+  1. Registrar uma despesa pessoal
   2. Consultar as minhas despesas
   3. Registrar uma categoria
   4. Consultar as minhas categorias
-  5. Registrar um grupo
-  6. Consultar os meus grupos
-  7. Sair`,
+  5. Registrar uma despesa grupal
+  6. Registrar ou entrar em um grupo
+  7. Consultar os meus grupos
+  8. Sair`,
+  registerPersonalExpenseDate:
+    'Por favor, insira a data da despesa em formato DD/MM/AAAA',
+  registerPersonalExpenseDescription:
+    'Por favor, insira a descrição da despesa',
+  registerPersonalExpenseAmount:
+    'Por favor, insira o valor da despesa sem letras nem caracteres especiais, separe os decimais com virgula',
+  registerPersonalExpenseCategory:
+    'Por favor, selecione a categoria da despesa:\n\n',
+  registeredPersonalExpense: 'Despesa registrada com sucesso',
   registerCategory: 'Qual o nome da categoria?',
   registeredCategory: 'Categoria {{categoryName}} registrada',
+  noRegisteredCategories:
+    'Antes de registrar uma despesa, você deve registrar pelo menos uma categoria',
+  listCategories: `Categorias:\n\n`,
   invalid: 'Por favor, selecione uma opção correta',
 };
 

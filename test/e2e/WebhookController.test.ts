@@ -125,12 +125,12 @@ describe('Webhook Controller', () => {
       .post(`/${BaseRoute}/webhook/test`)
       .send(inputSecondMessage);
     const inputThirdMessage = webhookEventPayload;
-    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body = '3';
+    inputThirdMessage.entry[0].changes[0].value.messages[0].text.body = '3';
     const outputThirdMessage = await request(httpClient.app)
       .post(`/${BaseRoute}/webhook/test`)
       .send(inputThirdMessage);
     const inputFourthMessage = webhookEventPayload;
-    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body =
+    inputFourthMessage.entry[0].changes[0].value.messages[0].text.body =
       'Minha Categoria';
     const outputFourthMessage = await request(httpClient.app)
       .post(`/${BaseRoute}/webhook/test`)
@@ -139,5 +139,126 @@ describe('Webhook Controller', () => {
     expect(outputThirdMessage.body).toBe('Register category message sent');
     expect(outputFourthMessage.status).toBe(HttpStatusCodes.OK);
     expect(outputFourthMessage.body).toBe('Registered category message sent');
+  });
+
+  test('POST /test - should list categories', async () => {
+    const inputFirstMessage = webhookEventPayload;
+    inputFirstMessage.entry[0].changes[0].value.messages[0].text.body = 'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFirstMessage);
+    const inputSecondMessage = webhookEventPayload;
+    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Esteban Ramirez';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSecondMessage);
+    const inputThirdMessage = webhookEventPayload;
+    inputThirdMessage.entry[0].changes[0].value.messages[0].text.body = '3';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputThirdMessage);
+    const inputFourthMessage = webhookEventPayload;
+    inputFourthMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Categoria 1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFourthMessage);
+    const inputFifthMessage = webhookEventPayload;
+    inputFifthMessage.entry[0].changes[0].value.messages[0].text.body = '3';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFifthMessage);
+    const inputSixthMessage = webhookEventPayload;
+    inputSixthMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Categoria 2';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSixthMessage);
+    const inputSeventhMessage = webhookEventPayload;
+    inputSeventhMessage.entry[0].changes[0].value.messages[0].text.body = '4';
+    const outputSeventhMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSeventhMessage);
+    expect(outputSeventhMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputSeventhMessage.body).toBe('List categories message sent');
+  });
+
+  test('POST /test - should register an expense if no category is registered', async () => {
+    const inputFirstMessage = webhookEventPayload;
+    inputFirstMessage.entry[0].changes[0].value.messages[0].text.body = 'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFirstMessage);
+    const inputSecondMessage = webhookEventPayload;
+    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Esteban Ramirez';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSecondMessage);
+    const inputThirdMessage = webhookEventPayload;
+    inputThirdMessage.entry[0].changes[0].value.messages[0].text.body = '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputThirdMessage);
+    const inputFourthMessage = webhookEventPayload;
+    inputFourthMessage.entry[0].changes[0].value.messages[0].text.body = '3';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFourthMessage);
+    const inputFifthMessage = webhookEventPayload;
+    inputFifthMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Minha categoria';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFifthMessage);
+    const inputSixthMessage = webhookEventPayload;
+    inputSixthMessage.entry[0].changes[0].value.messages[0].text.body = '1';
+    const outputSixthMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSixthMessage);
+    const inputSeventhMessage = webhookEventPayload;
+    inputSeventhMessage.entry[0].changes[0].value.messages[0].text.body =
+      '28/02/2025';
+    const outputSeventhMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSeventhMessage);
+    const inputEightMessage = webhookEventPayload;
+    inputEightMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Comida e bebida';
+    const outputEightMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputEightMessage);
+    const inputNinthMessage = webhookEventPayload;
+    inputNinthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '350,45';
+    const outputNinthMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputNinthMessage);
+    const inputTenthMessage = webhookEventPayload;
+    inputTenthMessage.entry[0].changes[0].value.messages[0].text.body = '1';
+    const outputTenthMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputTenthMessage);
+    expect(outputSixthMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputSixthMessage.body).toBe(
+      'Register personal expense date message sent',
+    );
+    expect(outputSeventhMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputSeventhMessage.body).toBe(
+      'Register personal expense description message sent',
+    );
+    expect(outputEightMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputEightMessage.body).toBe(
+      'Register personal expense amount message sent',
+    );
+    expect(outputNinthMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputNinthMessage.body).toBe(
+      'Register personal expense category message sent',
+    );
+    expect(outputTenthMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputTenthMessage.body).toBe('Home message sent');
+    // expect(outputFourthMessage.status).toBe(HttpStatusCodes.OK);
+    // expect(outputFourthMessage.body).toBe('Registered category message sent');
   });
 });

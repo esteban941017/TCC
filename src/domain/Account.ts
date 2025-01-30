@@ -5,6 +5,17 @@ export default class Account {
       createdAt: string;
       name: string;
       currentPage: string;
+      temporaryPersonalExpense: {
+        date: string;
+        description: string;
+        amount: string;
+      };
+      personalExpenses: {
+        date: string;
+        description: string;
+        amount: string;
+        category: string;
+      }[];
       categories: string[];
       [key: string]: any;
     },
@@ -14,8 +25,26 @@ export default class Account {
     const createdAt = new Date().toISOString();
     const name = '';
     const currentPage = 'name';
+    const temporaryPersonalExpense = {
+      date: '',
+      description: '',
+      amount: '',
+    };
+    const personalExpenses: {
+      date: string;
+      description: string;
+      amount: string;
+      category: string;
+    }[] = [];
     const categories: string[] = [];
-    return new Account(phone, { createdAt, name, currentPage, categories });
+    return new Account(phone, {
+      createdAt,
+      name,
+      currentPage,
+      temporaryPersonalExpense,
+      personalExpenses,
+      categories,
+    });
   }
 
   static restore(
@@ -24,6 +53,17 @@ export default class Account {
       createdAt: string;
       name: string;
       currentPage: string;
+      temporaryPersonalExpense: {
+        date: string;
+        description: string;
+        amount: string;
+      };
+      personalExpenses: {
+        date: string;
+        description: string;
+        amount: string;
+        category: string;
+      }[];
       categories: string[];
       [key: string]: any;
     },
@@ -33,6 +73,8 @@ export default class Account {
       createdAt: accountData.createdAt,
       name: accountData.name,
       currentPage: accountData.currentPage,
+      temporaryPersonalExpense: accountData.temporaryPersonalExpense,
+      personalExpenses: accountData.personalExpenses,
       categories: accountData.categories,
     });
   }
