@@ -14,8 +14,8 @@ provider:
   environment: ${file(./serverless/provider/environment.yml)}
   deploymentBucket:
     name: ${opt:stage, "dev"}-eratechnologies-deployment-bucket
-  # iam:
-  #   role: ${file(./serverless/provider/iam.yml)}
+  iam:
+    role: ${file(./serverless/provider/iam.yml)}
 
 functions:
   Api:

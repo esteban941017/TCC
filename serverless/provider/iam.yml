@@ -1,4 +1,16 @@
-# statements:
+statements:
+  - Effect: Allow
+    Action:
+      - dynamodb:GetItem
+      - dynamodb:UpdateItem
+      - dynamodb:DeleteItem
+      - dynamodb:PutItem
+      - dynamodb:List
+      - dynamodb:Query
+      - dynamodb:Scan
+      - dynamodb:BatchWriteItem
+    Resource:
+      - '${ssm:${self:custom.ssmPrefix}/ACCOUNT_TABLE_ARN}*'
 #   - Effect: Allow
 #     Action:
 #       - sqs:SendMessage

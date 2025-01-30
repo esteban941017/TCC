@@ -28,10 +28,14 @@ routes.get('/', async (req, res) => {
   }
 });
 
-// routes.post('/webhook', async (req, res) => {
+//UNCOMMENT WHEN LIVE TESTING
+
+// routes.post('/', async (req, res) => {
 //   try {
 //     const webhookHandlerResponse = await handler(req);
-//     return res.status(HttpStatusCodes.OK).json({ message: 'teste' });
+//     return res
+//       .status(webhookHandlerResponse.statusCode)
+//       .json({ message: webhookHandlerResponse.body });
 //   } catch (error) {
 //     console.error(error);
 //     return res
@@ -39,6 +43,20 @@ routes.get('/', async (req, res) => {
 //       .json({ message: 'Internal Server Error' });
 //   }
 // });
+
+routes.post('/test', async (req, res) => {
+  try {
+    const webhookHandlerResponse = await handler(req);
+    return res
+      .status(webhookHandlerResponse.statusCode)
+      .json(webhookHandlerResponse.body);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Internal Server Error' });
+  }
+});
 
 export default routes;
 

@@ -1,4 +1,4 @@
-import { getMessageVariables } from '../../src/event/Webhook';
+import { getMessageVariables } from '../../src/application/util/GetMessageVariables';
 import { webhookEventPayload } from '../mock/WebhookEventPayload';
 
 describe('Get webhook message variables unit test', () => {

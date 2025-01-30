@@ -22,7 +22,7 @@ export default class AccountRepository {
     if (!Items) return null;
     const account = Items.shift();
     if (!account) return null;
-    return Account.restore(account.phone, account.accountData);
+    return account;
   }
 
   async updateAccount(account: Account) {

@@ -37,3 +37,42 @@ export const webhookEventPayload = {
     },
   ],
 };
+export const webhookMetaEventPayload = {
+  object: 'whatsapp_business_account',
+  entry: [
+    {
+      id: '526386813898597',
+      changes: [
+        {
+          value: {
+            messaging_product: 'whatsapp',
+            metadata: {
+              display_phone_number: '15551523104',
+              phone_number_id: '570580906132568',
+            },
+            statuses: [
+              {
+                id: 'wamid.HBgMNTUzMTkwNzIzNzAwFQIAERgSMkNDNjYwNzMxMzg0QTU4MDg3AA==',
+                status: 'delivered',
+                timestamp: '1738169368',
+                recipient_id: '553190723700',
+                conversation: {
+                  id: '409a172c09a0d382c507e3945e10fe75',
+                  origin: {
+                    type: 'utility',
+                  },
+                },
+                pricing: {
+                  billable: true,
+                  pricing_model: 'CBP',
+                  category: 'utility',
+                },
+              },
+            ],
+          },
+          field: 'messages',
+        },
+      ],
+    },
+  ],
+};

@@ -43,7 +43,6 @@ export default class DynamoDBTableGateway {
       ...params,
       TableName: this.tableName,
     });
-
     const result = await this.dynamoDBClient.send(command);
     return result;
   }
