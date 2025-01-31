@@ -258,7 +258,143 @@ describe('Webhook Controller', () => {
     );
     expect(outputTenthMessage.status).toBe(HttpStatusCodes.OK);
     expect(outputTenthMessage.body).toBe('Home message sent');
-    // expect(outputFourthMessage.status).toBe(HttpStatusCodes.OK);
-    // expect(outputFourthMessage.body).toBe('Registered category message sent');
+  });
+
+  test('POST /test - should not list expenses if there are any registered', async () => {
+    const inputFirstMessage = webhookEventPayload;
+    inputFirstMessage.entry[0].changes[0].value.messages[0].text.body = 'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFirstMessage);
+    const inputSecondMessage = webhookEventPayload;
+    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Esteban Ramirez';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSecondMessage);
+    const inputThirdMessage = webhookEventPayload;
+    inputThirdMessage.entry[0].changes[0].value.messages[0].text.body = '2';
+    const outputThirdMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputThirdMessage);
+    expect(outputThirdMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputThirdMessage.body).toBe('No registered expenses message sent');
+  });
+
+  test('POST /test - Should list expenses', async () => {
+    const inputFirstMessage = webhookEventPayload;
+    inputFirstMessage.entry[0].changes[0].value.messages[0].text.body = 'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFirstMessage);
+    const inputSecondMessage = webhookEventPayload;
+    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Esteban Ramirez';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSecondMessage);
+    const inputThirdMessage = webhookEventPayload;
+    inputThirdMessage.entry[0].changes[0].value.messages[0].text.body = '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputThirdMessage);
+    const inputFourthMessage = webhookEventPayload;
+    inputFourthMessage.entry[0].changes[0].value.messages[0].text.body = '3';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFourthMessage);
+    const inputFifthMessage = webhookEventPayload;
+    inputFifthMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Minha categoria 1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFifthMessage);
+    const inputSixthMessage = webhookEventPayload;
+    inputSixthMessage.entry[0].changes[0].value.messages[0].text.body = '3';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSixthMessage);
+    const inputSeventhMessage = webhookEventPayload;
+    inputSeventhMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Minha categoria 2';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSeventhMessage);
+    const inputEightMessage = webhookEventPayload;
+    inputEightMessage.entry[0].changes[0].value.messages[0].text.body = '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputEightMessage);
+    const inputNinethMessage = webhookEventPayload;
+    inputNinethMessage.entry[0].changes[0].value.messages[0].text.body =
+      '27/02/2025';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputNinethMessage);
+    const inputTenthMessage = webhookEventPayload;
+    inputTenthMessage.entry[0].changes[0].value.messages[0].text.body = 'Pizza';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputTenthMessage);
+    const inputEleventhMessage = webhookEventPayload;
+    inputEleventhMessage.entry[0].changes[0].value.messages[0].text.body =
+      '50,45';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputEleventhMessage);
+    const inputTwelvethMessage = webhookEventPayload;
+    inputTwelvethMessage.entry[0].changes[0].value.messages[0].text.body = '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputTwelvethMessage);
+
+    const inputThirteenthMessage = webhookEventPayload;
+    inputThirteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputThirteenthMessage);
+    const inputFourteenthMessage = webhookEventPayload;
+    inputFourteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '28/02/2025';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFourteenthMessage);
+    const inputFiveteenthMessage = webhookEventPayload;
+    inputFiveteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Hamburguer';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFiveteenthMessage);
+    const inputSixteenthMessage = webhookEventPayload;
+    inputSixteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '350,45';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSixteenthMessage);
+    const inputSeventeenthMessage = webhookEventPayload;
+    inputSeventeenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSeventeenthMessage);
+    const inputEighteenthMessage = webhookEventPayload;
+    inputEighteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '2';
+    const outputEighteenthMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputEighteenthMessage);
+    const inputNineteenthMessage = webhookEventPayload;
+    inputNineteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '2';
+    const outputNineteenthMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputNineteenthMessage);
+    expect(outputEighteenthMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputEighteenthMessage.body).toBe(
+      'List personal expense select category message sent',
+    );
+    expect(outputNineteenthMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputNineteenthMessage.body).toBe('Home message sent');
   });
 });

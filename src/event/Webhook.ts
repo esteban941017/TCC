@@ -96,7 +96,43 @@ export const handler = async (event: any): Promise<any> => {
           returnMessage = 'Register personal expense date message sent';
         }
       } else if (message.messageBody === '2') {
+        if (!account.accountData.personalExpenses.length) {
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body: MessageLibrary.noRegisteredExpenses,
+            }),
+          );
+          const firstName = account.accountData.name.split(' ')[0];
+          const name =
+            firstName.toLowerCase().charAt(0).toUpperCase() +
+            firstName.toLowerCase().slice(1);
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body: MessageLibrary.home.replace('{{name}}', name),
+            }),
+          );
+          returnMessage = 'No registered expenses message sent';
+        } else {
+          account = await accountService.updateAccount(message.from, {
+            currentPage: 'listPersonalExpensesCategories',
+          });
+          const mappedCategories = account.accountData.categories.reduce(
+            (acc, curr, index) => {
+              return (acc += `${index + 1}. ${curr}\n`);
+            },
+            '',
+          );
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body:
+                MessageLibrary.listPersonalExpensesCategories +
+                mappedCategories,
+            }),
+          );
+          returnMessage = 'List personal expense select category message sent';
+        }
       }
+
       //REGISTER CATEGORY
       else if (message.messageBody === '3') {
         account = await accountService.updateAccount(message.from, {
@@ -268,6 +304,76 @@ export const handler = async (event: any): Promise<any> => {
             body: MessageLibrary.registeredPersonalExpense,
           }),
         );
+        const firstName = account.accountData.name.split(' ')[0];
+        const name =
+          firstName.toLowerCase().charAt(0).toUpperCase() +
+          firstName.toLowerCase().slice(1);
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.home.replace('{{name}}', name),
+          }),
+        );
+        returnMessage = 'Home message sent';
+      }
+    }
+
+    //LIST PERSONAL EXPENSE CATEGORY MENU
+    else if (
+      account.accountData.currentPage === 'listPersonalExpensesCategories'
+    ) {
+      const validCategories = account.accountData.categories
+        .map((category, index) => String(index + 1))
+        .includes(message.messageBody);
+      if (!validCategories) {
+        const mappedCategories = account.accountData.categories.reduce(
+          (acc, curr, index) => {
+            return (acc += `${index + 1}. ${curr}\n`);
+          },
+          '',
+        );
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body:
+              MessageLibrary.listPersonalExpensesCategories + mappedCategories,
+          }),
+        );
+      } else {
+        account = await accountService.updateAccount(message.from, {
+          currentPage: 'home',
+        });
+        const personalExpenses = account.accountData.personalExpenses
+          .filter(expense => {
+            const selectedCategory =
+              account?.accountData.categories[Number(message.messageBody) - 1];
+            return expense.category === selectedCategory;
+          })
+          .reduce((acc, expense) => {
+            const description = `*Descrição:* ${expense.description}` + '\n';
+            const date =
+              `*Data:* ${new Date(expense.date).toLocaleDateString('pt-BR')}` +
+              '\n';
+            const amount = `*Valor:* R$ ${expense.amount}` + '\n\n';
+            return (acc += description + date + amount);
+          }, '');
+        if (personalExpenses.length)
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body:
+                MessageLibrary.listPersonalExpenses.replace(
+                  '{{category}}',
+                  `*${account.accountData.categories[Number(message.messageBody) - 1]}*`,
+                ) + personalExpenses,
+            }),
+          );
+        else
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body: MessageLibrary.listEmptyPersonalExpenses.replace(
+                '{{category}}',
+                `*${account.accountData.categories[Number(message.messageBody) - 1]}*`,
+              ),
+            }),
+          );
         const firstName = account.accountData.name.split(' ')[0];
         const name =
           firstName.toLowerCase().charAt(0).toUpperCase() +

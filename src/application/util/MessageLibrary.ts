@@ -19,6 +19,12 @@ export const MessageLibrary = {
   registerPersonalExpenseCategory:
     'Por favor, selecione a categoria da despesa:\n\n',
   registeredPersonalExpense: 'Despesa registrada com sucesso',
+  listPersonalExpensesCategories:
+    'Por favor, selecione la categoria que deseja consultar: \n\n',
+  listPersonalExpenses: 'Suas despesas da categoria {{category}}: \n\n',
+  listEmptyPersonalExpenses:
+    'Você não tem despesas registradas na categoria {{category}}',
+  noRegisteredExpenses: 'Você não tem nenhuma despesa registrada',
   registerCategory: 'Qual o nome da categoria?',
   registeredCategory: 'Categoria {{categoryName}} registrada',
   noRegisteredCategories:
