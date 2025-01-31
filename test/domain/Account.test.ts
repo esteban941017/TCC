@@ -15,7 +15,14 @@ describe('Account domain test', () => {
         createdAt: new Date().toISOString(),
         name: 'Test name',
         currentPage: 'home',
+        temporaryPersonalExpense: {
+          date: '',
+          description: '',
+          amount: '',
+        },
+        personalExpenses: [],
         categories: [],
+        groups: [],
       },
     };
     const outputRestoreAccount = Account.restore(

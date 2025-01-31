@@ -26,7 +26,7 @@ describe('Webhook Controller', () => {
   afterEach(async () => {
     jest.restoreAllMocks();
     const account = await accountRepository.getByPhone('553190723700');
-    // if (account) await accountRepository.deleteAccount('553190723700');
+    if (account) await accountRepository.deleteAccount('553190723700');
   });
 
   afterAll(async () => {

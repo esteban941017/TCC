@@ -17,6 +17,7 @@ export default class Account {
         category: string;
       }[];
       categories: string[];
+      groups: string[];
       [key: string]: any;
     },
   ) {}
@@ -37,6 +38,7 @@ export default class Account {
       category: string;
     }[] = [];
     const categories: string[] = [];
+    const groups: string[] = [];
     return new Account(phone, {
       createdAt,
       name,
@@ -44,6 +46,7 @@ export default class Account {
       temporaryPersonalExpense,
       personalExpenses,
       categories,
+      groups,
     });
   }
 
@@ -65,6 +68,7 @@ export default class Account {
         category: string;
       }[];
       categories: string[];
+      groups: string[];
       [key: string]: any;
     },
   ) {
@@ -76,6 +80,7 @@ export default class Account {
       temporaryPersonalExpense: accountData.temporaryPersonalExpense,
       personalExpenses: accountData.personalExpenses,
       categories: accountData.categories,
+      groups: accountData.groups,
     });
   }
 }

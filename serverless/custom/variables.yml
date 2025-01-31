@@ -8,6 +8,7 @@ secrets: ${ssm:/aws/reference/secretsmanager/${self:custom.secretsName}}
 
 messageQueueName: ${self:custom.serviceNamePrefix}-message-queue
 accountTableName: ${self:custom.serviceNamePrefix}-account-table
+groupTableName: ${self:custom.serviceNamePrefix}-group-table
 
 deletionPolicy:
   dev: Delete

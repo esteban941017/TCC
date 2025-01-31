@@ -28,6 +28,9 @@ export const handler = async (event: any): Promise<any> => {
       typeof event.body === 'string'
         ? getMessageVariables(JSON.parse(event.body))
         : getMessageVariables(event.body);
+
+    console.log(JSON.stringify(message));
+
     let returnMessage = '';
     if (!message)
       return {

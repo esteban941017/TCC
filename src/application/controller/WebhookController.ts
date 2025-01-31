@@ -28,14 +28,14 @@ routes.get('/', async (req, res) => {
   }
 });
 
-//UNCOMMENT WHEN LIVE TESTING
+// UNCOMMENT WHEN LIVE TESTING
 
 // routes.post('/', async (req, res) => {
 //   try {
 //     const webhookHandlerResponse = await handler(req);
 //     return res
 //       .status(webhookHandlerResponse.statusCode)
-//       .json({ message: webhookHandlerResponse.body });
+//       .json(webhookHandlerResponse.body);
 //   } catch (error) {
 //     console.error(error);
 //     return res

@@ -1,0 +1,29 @@
+Resources:
+  GroupTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: ${self:custom.deletionPolicy.${sls:stage}}
+    Properties:
+      TableName: ${self:custom.groupTableName}
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  GroupTableName:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: ${self:custom.ssmPrefix}/GROUP_TABLE_NAME
+      Type: String
+      Value: ${self:custom.groupTableName}
+
+  GroupTableArn:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: ${self:custom.ssmPrefix}/GROUP_TABLE_ARN
+      Type: String
+      Value: !GetAtt GroupTable.Arn

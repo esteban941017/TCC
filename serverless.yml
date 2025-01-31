@@ -36,3 +36,4 @@ custom: ${file(./serverless/custom/variables.yml)}
 resources:
   - ${file(./serverless/resources/sqs-message-queue.yml)}
   - ${file(./serverless/resources/dynamo-account-table.yml)}
+  - ${file(./serverless/resources/dynamo-group-table.yml)}

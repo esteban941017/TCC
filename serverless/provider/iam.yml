@@ -11,6 +11,7 @@ statements:
       - dynamodb:BatchWriteItem
     Resource:
       - '${ssm:${self:custom.ssmPrefix}/ACCOUNT_TABLE_ARN}*'
+      - '${ssm:${self:custom.ssmPrefix}/GROUP_TABLE_ARN}*'
 #   - Effect: Allow
 #     Action:
 #       - sqs:SendMessage
