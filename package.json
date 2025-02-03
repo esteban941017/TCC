@@ -5,7 +5,7 @@
   "main": "./src/main.ts",
   "types": "./src/main.ts",
   "scripts": {
-    "test": "npx jest --runInBand",
+    "test": "npx jest --runInBand --verbose",
     "start": "NODE_ENV=local npx nodemon ./src/main.ts",
     "deploy:dev": "npm i && sls deploy --stage dev --aws-profile esteban941017",
     "kill:dev": "sls remove --stage dev --aws-profile esteban941017",

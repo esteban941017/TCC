@@ -21,10 +21,11 @@ export default class Group {
     },
   ) {}
 
-  static create(name: string) {
+  static create(name: string, createdBy: string) {
     const id = crypto.randomUUID();
     const createdAt = new Date().toISOString();
     const members: string[] = [];
+    members.push(createdBy);
     const expenses: {
       date: string;
       description: string;

@@ -15,8 +15,11 @@ describe('Account repository test', () => {
   });
 
   test('Should create a group', async () => {
-    const inputCreateGroup = 'My group';
-    const group = Group.create(inputCreateGroup);
+    const inputCreateGroup = { name: 'My group', ceatedBy: '553190723700' };
+    const group = Group.create(
+      inputCreateGroup.name,
+      inputCreateGroup.ceatedBy,
+    );
     const outputCreateGroup = await groupRepository.createGroup(group);
     expect(outputCreateGroup.id).toBe(group.id);
     expect(outputCreateGroup.name).toBe(group.name);
@@ -28,8 +31,11 @@ describe('Account repository test', () => {
   });
 
   test('Should get a group by id', async () => {
-    const inputCreateGroup = 'Group name';
-    const group = Group.create(inputCreateGroup);
+    const inputCreateGroup = { name: 'Group name', createdBy: '553190723700' };
+    const group = Group.create(
+      inputCreateGroup.name,
+      inputCreateGroup.createdBy,
+    );
     await groupRepository.createGroup(group);
     const inputGetById = group.id;
     const outputGetById = await groupRepository.getById(inputGetById);
@@ -43,8 +49,11 @@ describe('Account repository test', () => {
   });
 
   test('Should update a group', async () => {
-    const inputCreateGroup = 'My group';
-    const group = Group.create(inputCreateGroup);
+    const inputCreateGroup = { name: 'My group', createdBy: '553190723700' };
+    const group = Group.create(
+      inputCreateGroup.name,
+      inputCreateGroup.createdBy,
+    );
     await groupRepository.createGroup(group);
     const inputUpdateGroup = {
       ...group,
@@ -74,8 +83,11 @@ describe('Account repository test', () => {
   });
 
   test('Should delete a group', async () => {
-    const inputCreateGroup = 'My group';
-    const group = Group.create(inputCreateGroup);
+    const inputCreateGroup = { name: 'My group', createdBy: '553190723700' };
+    const group = Group.create(
+      inputCreateGroup.name,
+      inputCreateGroup.createdBy,
+    );
     await groupRepository.createGroup(group);
     const inputDeleteGroup = group.id;
     const outputDeleteGroup =

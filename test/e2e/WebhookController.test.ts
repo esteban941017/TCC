@@ -31,7 +31,7 @@ describe('Webhook Controller', () => {
 
   afterAll(async () => {
     const account = await accountRepository.getByPhone('553190723700');
-    // if (account) await accountRepository.deleteAccount('553190723700');
+    if (account) await accountRepository.deleteAccount('553190723700');
   });
 
   test('GET / - should verify webhook', async () => {
@@ -386,7 +386,7 @@ describe('Webhook Controller', () => {
       .send(inputEighteenthMessage);
     const inputNineteenthMessage = webhookEventPayload;
     inputNineteenthMessage.entry[0].changes[0].value.messages[0].text.body =
-      '2';
+      '1';
     const outputNineteenthMessage = await request(httpClient.app)
       .post(`/${BaseRoute}/webhook/test`)
       .send(inputNineteenthMessage);

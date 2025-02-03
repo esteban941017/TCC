@@ -3,12 +3,15 @@ import Group from '../../src/domain/Group';
 
 describe('Group domain test', () => {
   test('Should create a group', () => {
-    const inputCreateGroup = 'Group name';
-    const outputCreateGroup = Group.create(inputCreateGroup);
+    const inputCreateGroup = { name: 'Group name', createdBy: '553190723700' };
+    const outputCreateGroup = Group.create(
+      inputCreateGroup.name,
+      inputCreateGroup.createdBy,
+    );
     expect(outputCreateGroup.id).toBeDefined();
-    expect(outputCreateGroup.name).toBe(inputCreateGroup);
+    expect(outputCreateGroup.name).toBe(inputCreateGroup.name);
     expect(outputCreateGroup.createdAt).toBeDefined();
-    expect(outputCreateGroup.members).toEqual([]);
+    expect(outputCreateGroup.members).toEqual([inputCreateGroup.createdBy]);
     expect(outputCreateGroup.expenses).toEqual([]);
     expect(outputCreateGroup.temporaryExpense).toEqual({
       date: '',
