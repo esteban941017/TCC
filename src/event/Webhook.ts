@@ -207,15 +207,23 @@ export const handler = async (event: any): Promise<any> => {
           );
           returnMessage = 'No registered groups message sent';
         } else {
-          // account = await accountService.updateAccount(message.from, {
-          //   currentPage: 'registerPersonalExpenseDate',
-          // });
-          // await messageGateway.sendMessage(
-          //   Text.create(phoneNumber, {
-          //     body: MessageLibrary.registerPersonalExpenseDate,
-          //   }),
-          // );
-          // returnMessage = 'Register personal expense date message sent';
+          account = await accountService.updateAccount(message.from, {
+            currentPage: 'registerGroupExpenseMenu',
+          });
+          const groups = await Promise.all(
+            await account.accountData.groups.map(async id => {
+              return groupService.getGroup(id);
+            }),
+          );
+          const mappedGroups = groups.reduce((acc, group, index) => {
+            return (acc += `${index + 1}. ${group?.name}\n`);
+          }, '');
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body: MessageLibrary.registerGroupExpenseMenu + mappedGroups,
+            }),
+          );
+          returnMessage = 'Register group expense menu message sent';
         }
       }
 
@@ -570,6 +578,211 @@ export const handler = async (event: any): Promise<any> => {
               '{{groupName}}',
               group.name,
             ),
+          }),
+        );
+        const firstName = account.accountData.name.split(' ')[0];
+        const name =
+          firstName.toLowerCase().charAt(0).toUpperCase() +
+          firstName.toLowerCase().slice(1);
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.home.replace('{{name}}', name),
+          }),
+        );
+        returnMessage = 'Home message sent';
+      }
+    }
+
+    //GROUP EXPENSE REGISTRATION MENU
+    else if (account.accountData.currentPage === 'registerGroupExpenseMenu') {
+      const groups = await Promise.all(
+        await account.accountData.groups.map(async id => {
+          return groupService.getGroup(id);
+        }),
+      );
+      const filteredGroups = groups.filter((group, index) => {
+        return String(index + 1) === message.messageBody;
+      });
+      if (!filteredGroups.length) {
+        const mappedGroups = groups.reduce((acc, group, index) => {
+          return (acc += `${index + 1}. ${group?.name}\n`);
+        }, '');
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.registerGroupExpenseMenu + mappedGroups,
+          }),
+        );
+      } else {
+        const selectedGroup = filteredGroups[0];
+        account = await accountService.updateAccount(message.from, {
+          currentPage: 'registerGroupExpenseDate',
+          temporaryGroupExpense: {
+            ...account.accountData.temporaryGroupExpense,
+            groupId: selectedGroup?.id,
+            createdBy: message.from,
+          },
+        });
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.registerGroupExpenseDate,
+          }),
+        );
+        returnMessage = 'Register group expense date message sent';
+      }
+    }
+
+    //GROUP EXPENSE DATE REGISTRATION MENU
+    else if (account.accountData.currentPage === 'registerGroupExpenseDate') {
+      const validDate = validateDate(message.messageBody);
+      if (!validDate) {
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.registerGroupExpenseDate,
+          }),
+        );
+      } else {
+        account = await accountService.updateAccount(message.from, {
+          temporaryGroupExpense: {
+            ...account.accountData.temporaryGroupExpense,
+            date: validDate,
+          },
+          currentPage: 'registerGroupExpenseDescription',
+        });
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.registerGroupExpenseDescription,
+          }),
+        );
+        returnMessage = 'Register group expense description message sent';
+      }
+    }
+
+    //GROUP EXPENSE DESCRIPTION REGISTRATION MENU
+    else if (
+      account.accountData.currentPage === 'registerGroupExpenseDescription'
+    ) {
+      account = await accountService.updateAccount(message.from, {
+        temporaryGroupExpense: {
+          ...account.accountData.temporaryGroupExpense,
+          description: message.messageBody,
+        },
+        currentPage: 'registerGroupExpenseAmount',
+      });
+      await messageGateway.sendMessage(
+        Text.create(phoneNumber, {
+          body: MessageLibrary.registerGroupExpenseAmount,
+        }),
+      );
+      returnMessage = 'Register group expense amount message sent';
+    }
+
+    //GROUP EXPENSE AMOUNT MENU
+    else if (account.accountData.currentPage === 'registerGroupExpenseAmount') {
+      const validAmount = validateAmount(message.messageBody);
+      if (!validAmount) {
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.registerGroupExpenseAmount,
+          }),
+        );
+      } else {
+        account = await accountService.updateAccount(message.from, {
+          temporaryGroupExpense: {
+            ...account.accountData.temporaryGroupExpense,
+            amount: validAmount,
+          },
+          currentPage: 'registerGroupExpenseMembers',
+        });
+        const group = await groupService.getGroup(
+          account.accountData.temporaryGroupExpense.groupId,
+        );
+        const groupMembers =
+          group &&
+          (await Promise.all(
+            group?.members.map(async member =>
+              accountService.getAccount(member),
+            ),
+          ));
+        const mappedMembers = groupMembers?.reduce((acc, curr, index) => {
+          return (acc += `${index + 1}. ${curr?.accountData.name}\n`);
+        }, '');
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.registerGroupExpenseMembers + mappedMembers,
+          }),
+        );
+        returnMessage = 'Register group expense members message sent';
+      }
+    }
+
+    //GROUP EXPENSE MEMBERS MENU
+    else if (
+      account.accountData.currentPage === 'registerGroupExpenseMembers'
+    ) {
+      const declaredMembers: string[] = message.messageBody
+        .replace(/\D+/g, ',')
+        .replace(/^,|,$/g, '')
+        .split(',');
+      let group = await groupService.getGroup(
+        account.accountData.temporaryGroupExpense.groupId,
+      );
+      const groupMembers =
+        group &&
+        (await Promise.all(
+          group?.members.map(async member => accountService.getAccount(member)),
+        ));
+      const groupMemberCheck = declaredMembers.every(member => {
+        const mappedGroupMembers = groupMembers
+          ?.map((m, i) => {
+            return String(i + 1);
+          })
+          .includes(member);
+        return mappedGroupMembers;
+      });
+
+      if (
+        !group ||
+        !groupMembers ||
+        !declaredMembers.length ||
+        declaredMembers.some(member => Number.isNaN(member)) ||
+        !groupMemberCheck
+      ) {
+        const mappedMembers = groupMembers?.reduce((acc, curr, index) => {
+          return (acc += `${index + 1}. ${curr?.accountData.name}\n`);
+        }, '');
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.registerGroupExpenseMembers + mappedMembers,
+          }),
+        );
+      } else {
+        group = await groupService.updateGroup(group.id, {
+          expenses: [
+            ...group.expenses,
+            {
+              ...account.accountData.temporaryGroupExpense,
+              members: [
+                ...groupMembers.filter((member: any, index) => {
+                  return declaredMembers.includes(String(index + 1));
+                }),
+              ].map(member => member?.phone),
+            },
+          ],
+        });
+        account = await accountService.updateAccount(message.from, {
+          temporaryGroupExpense: {
+            amount: '',
+            createdBy: '',
+            date: '',
+            description: '',
+            groupId: '',
+            members: [],
+          },
+          currentPage: 'home',
+        });
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.registeredGroupExpense,
           }),
         );
         const firstName = account.accountData.name.split(' ')[0];

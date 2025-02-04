@@ -41,6 +41,13 @@ describe('Account service test', () => {
     expect(outputCreateAccount.accountData.personalExpenses).toEqual([]);
     expect(outputCreateAccount.accountData.categories).toEqual([]);
     expect(outputCreateAccount.accountData.groups).toEqual([]);
+    expect(outputCreateAccount.accountData.temporaryGroupExpense).toEqual({
+      date: '',
+      description: '',
+      amount: '',
+      members: [],
+      createdBy: '',
+    });
   });
 
   test('Should get an account', async () => {
@@ -60,6 +67,13 @@ describe('Account service test', () => {
     expect(outputGetAccount?.accountData.personalExpenses).toEqual([]);
     expect(outputGetAccount?.accountData.categories).toEqual([]);
     expect(outputGetAccount?.accountData.groups).toEqual([]);
+    expect(outputGetAccount?.accountData.temporaryGroupExpense).toEqual({
+      date: '',
+      description: '',
+      amount: '',
+      members: [],
+      createdBy: '',
+    });
   });
 
   test('Should update an account', async () => {

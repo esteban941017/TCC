@@ -13,13 +13,6 @@ export default class Group {
       amount: string;
       members: string[];
     }[],
-    readonly temporaryExpenses: {
-      date: string;
-      description: string;
-      amount: string;
-      members: string[];
-      createdBy: string;
-    }[],
   ) {}
 
   static create(name: string, createdBy: string) {
@@ -34,14 +27,7 @@ export default class Group {
       amount: string;
       members: string[];
     }[] = [];
-    const temporaryExpenses: {
-      date: string;
-      description: string;
-      amount: string;
-      members: string[];
-      createdBy: string;
-    }[] = [];
-    return new Group(id, name, createdAt, members, expenses, temporaryExpenses);
+    return new Group(id, name, createdAt, members, expenses);
   }
 
   static restore(
@@ -56,14 +42,7 @@ export default class Group {
       amount: string;
       members: string[];
     }[],
-    temporaryExpenses: {
-      date: string;
-      description: string;
-      amount: string;
-      members: string[];
-      createdBy: string;
-    }[],
   ) {
-    return new Group(id, name, createdAt, members, expenses, temporaryExpenses);
+    return new Group(id, name, createdAt, members, expenses);
   }
 }

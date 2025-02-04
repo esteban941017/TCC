@@ -19,7 +19,6 @@ export default class GroupService {
       group.createdAt,
       group.members,
       group.expenses,
-      group.temporaryExpenses,
     );
   }
 
@@ -32,7 +31,6 @@ export default class GroupService {
       group.createdAt,
       data.members ? data.members : group.members,
       data.expenses ? data.expenses : group.expenses,
-      data.temporaryExpenses ? data.temporaryExpenses : group.temporaryExpenses,
     );
     return this.groupRepository.updateGroup(updatedGroup);
   }

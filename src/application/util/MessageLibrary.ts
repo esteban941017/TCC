@@ -40,6 +40,15 @@ export const MessageLibrary = {
   enterGroup: 'Por favor, insira o codigo do grupo',
   invalidGroupId: 'O grupo indicado não existe',
   enteredGroup: 'Você entrou no grupo {{groupName}}',
+  registerGroupExpenseMenu: `Selecione o grupo onde você deseja adicionar a despesa\n\n`,
+  registerGroupExpenseDate:
+    'Por favor, insira a data da despesa em formato DD/MM/AAAA',
+  registerGroupExpenseDescription: 'Por favor, insira a descrição da despesa',
+  registerGroupExpenseAmount:
+    'Por favor, insira o valor da despesa sem letras nem caracteres especiais, separe os decimais com virgula',
+  registerGroupExpenseMembers:
+    'Por favor, selecione o codigo dos membros do grupo envolvidos na despesa separados por virgula (ex. 1,3,4): \n\n',
+  registeredGroupExpense: 'Despesa registrada com sucesso',
   invalid: 'Por favor, selecione uma opção correta',
 };
 

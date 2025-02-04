@@ -23,6 +23,13 @@ describe('Account domain test', () => {
         personalExpenses: [],
         categories: [],
         groups: [],
+        temporaryGroupExpense: {
+          date: '',
+          description: '',
+          amount: '',
+          members: [],
+          createdBy: '',
+        },
       },
     };
     const outputRestoreAccount = Account.restore(

@@ -18,6 +18,14 @@ export default class Account {
       }[];
       categories: string[];
       groups: string[];
+      temporaryGroupExpense: {
+        date: string;
+        description: string;
+        amount: string;
+        members: string[];
+        createdBy: string;
+        groupId: string;
+      };
       [key: string]: any;
     },
   ) {}
@@ -39,6 +47,14 @@ export default class Account {
     }[] = [];
     const categories: string[] = [];
     const groups: string[] = [];
+    const temporaryGroupExpense = {
+      date: '',
+      description: '',
+      amount: '',
+      members: [],
+      createdBy: '',
+      groupId: '',
+    };
     return new Account(phone, {
       createdAt,
       name,
@@ -47,6 +63,7 @@ export default class Account {
       personalExpenses,
       categories,
       groups,
+      temporaryGroupExpense,
     });
   }
 
@@ -69,6 +86,14 @@ export default class Account {
       }[];
       categories: string[];
       groups: string[];
+      temporaryGroupExpense: {
+        date: string;
+        description: string;
+        amount: string;
+        members: string[];
+        createdBy: string;
+        groupId: string;
+      };
       [key: string]: any;
     },
   ) {
@@ -81,6 +106,7 @@ export default class Account {
       personalExpenses: accountData.personalExpenses,
       categories: accountData.categories,
       groups: accountData.groups,
+      temporaryGroupExpense: accountData.temporaryGroupExpense,
     });
   }
 }
