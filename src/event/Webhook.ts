@@ -1,4 +1,5 @@
 import AccountRepository from '../application/repository/AccountRepository';
+import GroupRepository from '../application/repository/GroupRepository';
 import { getMessageVariables } from '../application/util/GetMessageVariables';
 import { HttpStatusCodes } from '../application/util/HttpStatusCodes';
 import { MessageLibrary } from '../application/util/MessageLibrary';
@@ -9,17 +10,24 @@ import Text from '../domain/MessageTypes/Text';
 import DynamoDBTableGateway from '../infra/database/DynamoDBTableGateway';
 import MessageGateway from '../infra/gateway/MessageGateway';
 import AccountService from '../service/AccountService';
+import GroupService from '../service/GroupService';
 
-let dynamoDbTableGateway: DynamoDBTableGateway;
+let accountDbTableGateway: DynamoDBTableGateway;
 let accountRepository: AccountRepository;
 let accountService: AccountService;
+let groupDbTableGateway: DynamoDBTableGateway;
+let groupRepository: GroupRepository;
+let groupService: GroupService;
 let messageGateway: MessageGateway;
 
-dynamoDbTableGateway = new DynamoDBTableGateway(
+accountDbTableGateway = new DynamoDBTableGateway(
   String(process.env.ACCOUNT_TABLE),
 );
-accountRepository = new AccountRepository(dynamoDbTableGateway);
+accountRepository = new AccountRepository(accountDbTableGateway);
 accountService = new AccountService(accountRepository);
+groupDbTableGateway = new DynamoDBTableGateway(String(process.env.GROUP_TABLE));
+groupRepository = new GroupRepository(groupDbTableGateway);
+groupService = new GroupService(groupRepository);
 messageGateway = new MessageGateway();
 
 export const handler = async (event: any): Promise<any> => {
@@ -67,7 +75,7 @@ export const handler = async (event: any): Promise<any> => {
     //HOME MENU
     else if (
       account.accountData.currentPage === 'home' &&
-      ['1', '2', '3', '4', '5', '6', '7', '8'].includes(message.messageBody)
+      ['1', '2', '3', '4', '5', '6', '7'].includes(message.messageBody)
     ) {
       //REGISTER EXPENSE
       if (message.messageBody === '1') {
@@ -98,7 +106,10 @@ export const handler = async (event: any): Promise<any> => {
           );
           returnMessage = 'Register personal expense date message sent';
         }
-      } else if (message.messageBody === '2') {
+      }
+
+      //LIST EXPENSES
+      else if (message.messageBody === '2') {
         if (!account.accountData.personalExpenses.length) {
           await messageGateway.sendMessage(
             Text.create(phoneNumber, {
@@ -148,6 +159,7 @@ export const handler = async (event: any): Promise<any> => {
         );
         returnMessage = 'Register category message sent';
       }
+
       //LIST CATEGORIES
       else if (message.messageBody === '4') {
         account = await accountService.updateAccount(message.from, {
@@ -174,8 +186,50 @@ export const handler = async (event: any): Promise<any> => {
           }),
         );
         returnMessage = 'List categories message sent';
-      } else if (message.messageBody === '5') {
-      } else if (message.messageBody === '6') {
+      }
+
+      //REGISTER GROUP EXPENSE
+      else if (message.messageBody === '5') {
+        if (!account.accountData.groups.length) {
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body: MessageLibrary.noRegisteredGroups,
+            }),
+          );
+          const firstName = account.accountData.name.split(' ')[0];
+          const name =
+            firstName.toLowerCase().charAt(0).toUpperCase() +
+            firstName.toLowerCase().slice(1);
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body: MessageLibrary.home.replace('{{name}}', name),
+            }),
+          );
+          returnMessage = 'No registered groups message sent';
+        } else {
+          // account = await accountService.updateAccount(message.from, {
+          //   currentPage: 'registerPersonalExpenseDate',
+          // });
+          // await messageGateway.sendMessage(
+          //   Text.create(phoneNumber, {
+          //     body: MessageLibrary.registerPersonalExpenseDate,
+          //   }),
+          // );
+          // returnMessage = 'Register personal expense date message sent';
+        }
+      }
+
+      //REGISTER GROUP
+      else if (message.messageBody === '6') {
+        account = await accountService.updateAccount(message.from, {
+          currentPage: 'registerGroup',
+        });
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.registerGroup,
+          }),
+        );
+        returnMessage = 'Register group message sent';
       } else if (message.messageBody === '7') {
       }
     }
@@ -416,6 +470,119 @@ export const handler = async (event: any): Promise<any> => {
         }),
       );
       returnMessage = 'Registered category message sent';
+    }
+
+    //GROUP REGISTRATION MENU
+    else if (account.accountData.currentPage === 'registerGroup') {
+      if (message.messageBody !== '1' && message.messageBody !== '2') {
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.registerGroup,
+          }),
+        );
+      } else if (message.messageBody === '1') {
+        account = await accountService.updateAccount(message.from, {
+          currentPage: 'registerGroupName',
+        });
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.registerGroupName,
+          }),
+        );
+        returnMessage = 'Register group name message sent';
+      } else if (message.messageBody === '2') {
+        account = await accountService.updateAccount(message.from, {
+          currentPage: 'enterGroup',
+        });
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.enterGroup,
+          }),
+        );
+        returnMessage = 'Enter group message sent';
+      }
+    }
+
+    //GROUP NAME REGISTRATION
+    else if (account.accountData.currentPage === 'registerGroupName') {
+      const group = await groupService.createGroup(
+        message.messageBody,
+        account.phone,
+      );
+      account = await accountService.updateAccount(message.from, {
+        currentPage: 'home',
+        groups: [...new Set([...account.accountData.groups, group.id])],
+      });
+      await messageGateway.sendMessage(
+        Text.create(phoneNumber, {
+          body: MessageLibrary.registeredGroup
+            .replace('{{groupName}}', message.messageBody)
+            .replace('{{groupId}}', group.id),
+        }),
+      );
+      const firstName = account.accountData.name.split(' ')[0];
+      const name =
+        firstName.toLowerCase().charAt(0).toUpperCase() +
+        firstName.toLowerCase().slice(1);
+      await messageGateway.sendMessage(
+        Text.create(phoneNumber, {
+          body: MessageLibrary.home.replace('{{name}}', name),
+        }),
+      );
+      returnMessage = 'Home message sent';
+    }
+
+    //ENTER GROUP
+    else if (account.accountData.currentPage === 'enterGroup') {
+      let group = await groupService.getGroup(message.messageBody);
+      if (!group) {
+        account = await accountService.updateAccount(message.from, {
+          currentPage: 'home',
+        });
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.invalidGroupId,
+          }),
+        );
+        const firstName = account.accountData.name.split(' ')[0];
+        const name =
+          firstName.toLowerCase().charAt(0).toUpperCase() +
+          firstName.toLowerCase().slice(1);
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.home.replace('{{name}}', name),
+          }),
+        );
+        returnMessage = 'Invalid enter group message sent';
+      } else {
+        account = await accountService.updateAccount(message.from, {
+          currentPage: 'home',
+          groups: [
+            ...new Set([...account.accountData.groups, message.messageBody]),
+          ],
+        });
+        group = await groupService.updateGroup(group.id, {
+          members: [...new Set([...group.members, account.phone])],
+        });
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.enteredGroup.replace(
+              '{{groupName}}',
+              group.name,
+            ),
+          }),
+        );
+        const firstName = account.accountData.name.split(' ')[0];
+        const name =
+          firstName.toLowerCase().charAt(0).toUpperCase() +
+          firstName.toLowerCase().slice(1);
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.home.replace('{{name}}', name),
+          }),
+        );
+        returnMessage = 'Home message sent';
+      }
     }
 
     //INVALID MESSAGE

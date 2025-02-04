@@ -2,9 +2,13 @@ import loadEnvironment from '../../src/infra/env/environment';
 import { HttpStatusCodes } from '../../src/application/util/HttpStatusCodes';
 import { BaseRoute, HttpServer } from '../../src/infra/http/HttpServer';
 import request from 'supertest';
-import { webhookEventPayload } from '../mock/WebhookEventPayload';
+import {
+  webhookEventPayload,
+  webhookSecondUserEventPayload,
+} from '../mock/WebhookEventPayload';
 import DynamoDBTableGateway from '../../src/infra/database/DynamoDBTableGateway';
 import AccountRepository from '../../src/application/repository/AccountRepository';
+import { accountService } from '../../src/main';
 
 describe('Webhook Controller', () => {
   let httpClient: HttpServer;
@@ -19,19 +23,25 @@ describe('Webhook Controller', () => {
       String(process.env.ACCOUNT_TABLE),
     );
     accountRepository = new AccountRepository(dynamoDbTableGateway);
-    const account = await accountRepository.getByPhone('553190723700');
-    if (account) await accountRepository.deleteAccount('553190723700');
+    const account1 = await accountRepository.getByPhone('553190723700');
+    const account2 = await accountRepository.getByPhone('573507098262');
+    if (account1) await accountRepository.deleteAccount('553190723700');
+    if (account2) await accountRepository.deleteAccount('573507098262');
   });
 
   afterEach(async () => {
     jest.restoreAllMocks();
-    const account = await accountRepository.getByPhone('553190723700');
-    if (account) await accountRepository.deleteAccount('553190723700');
+    const account1 = await accountRepository.getByPhone('553190723700');
+    const account2 = await accountRepository.getByPhone('573507098262');
+    // if (account1) await accountRepository.deleteAccount('553190723700');
+    // if (account2) await accountRepository.deleteAccount('573507098262');
   });
 
   afterAll(async () => {
-    const account = await accountRepository.getByPhone('553190723700');
-    if (account) await accountRepository.deleteAccount('553190723700');
+    const account1 = await accountRepository.getByPhone('553190723700');
+    const account2 = await accountRepository.getByPhone('573507098262');
+    // if (account1) await accountRepository.deleteAccount('553190723700');
+    // if (account2) await accountRepository.deleteAccount('573507098262');
   });
 
   test('GET / - should verify webhook', async () => {
@@ -396,5 +406,135 @@ describe('Webhook Controller', () => {
     );
     expect(outputNineteenthMessage.status).toBe(HttpStatusCodes.OK);
     expect(outputNineteenthMessage.body).toBe('Home message sent');
+  });
+
+  test('POST /test - should not add group expense if there are no registered groups', async () => {
+    const inputFirstMessage = webhookEventPayload;
+    inputFirstMessage.entry[0].changes[0].value.messages[0].text.body = 'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFirstMessage);
+    const inputSecondMessage = webhookEventPayload;
+    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Esteban Ramirez';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSecondMessage);
+    const inputThirdMessage = webhookEventPayload;
+    inputThirdMessage.entry[0].changes[0].value.messages[0].text.body = '5';
+    const outputThirdMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputThirdMessage);
+    expect(outputThirdMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputThirdMessage.body).toBe('No registered groups message sent');
+  });
+
+  test('POST /test - should register a new group', async () => {
+    const inputFirstMessage = webhookEventPayload;
+    inputFirstMessage.entry[0].changes[0].value.messages[0].text.body = 'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFirstMessage);
+    const inputSecondMessage = webhookEventPayload;
+    inputSecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Esteban Ramirez';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputSecondMessage);
+    const inputThirdMessage = webhookEventPayload;
+    inputThirdMessage.entry[0].changes[0].value.messages[0].text.body = '6';
+    const outputThirdMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputThirdMessage);
+    const inputFourthMessage = webhookEventPayload;
+    inputFourthMessage.entry[0].changes[0].value.messages[0].text.body = '1';
+    const outputFourthMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFourthMessage);
+    const inputFifthMessage = webhookEventPayload;
+    inputFifthMessage.entry[0].changes[0].value.messages[0].text.body =
+      'My group name';
+    const outputFifthMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputFifthMessage);
+    expect(outputThirdMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputThirdMessage.body).toBe('Register group message sent');
+    expect(outputFourthMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputFourthMessage.body).toBe('Register group name message sent');
+    expect(outputFifthMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputFifthMessage.body).toBe('Home message sent');
+  });
+
+  test('POST /test - should enter a new group', async () => {
+    const inputUser1FirstMessage = webhookEventPayload;
+    inputUser1FirstMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1FirstMessage);
+    const inputUser2FirstMessage = webhookSecondUserEventPayload;
+    inputUser2FirstMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser2FirstMessage);
+    const inputUser1SecondMessage = webhookEventPayload;
+    inputUser1SecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Esteban Ramirez';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1SecondMessage);
+    const inputUser2SecondMessage = webhookSecondUserEventPayload;
+    inputUser2SecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Nicolas';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser2SecondMessage);
+    const inputUser2ThirdMessage = webhookSecondUserEventPayload;
+    inputUser2ThirdMessage.entry[0].changes[0].value.messages[0].text.body =
+      '6';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser2ThirdMessage);
+    const inputUser2FourthMessage = webhookSecondUserEventPayload;
+    inputUser2FourthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser2FourthMessage);
+    const inputUser2FifthMessage = webhookSecondUserEventPayload;
+    inputUser2FifthMessage.entry[0].changes[0].value.messages[0].text.body =
+      'My group name';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser2FifthMessage);
+    const createdGroup = (
+      await accountService.getAccount(
+        webhookSecondUserEventPayload.entry[0].changes[0].value.messages[0]
+          .from,
+      )
+    )?.accountData.groups[0];
+    const inputUser1ThirdMessage = webhookEventPayload;
+    inputUser1ThirdMessage.entry[0].changes[0].value.messages[0].text.body =
+      '6';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1ThirdMessage);
+    const inputUser1FourthMessage = webhookEventPayload;
+    inputUser1FourthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '2';
+    const outputUser1FourthMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1FourthMessage);
+    const inputUser1FifthMessage = webhookEventPayload;
+    inputUser1FifthMessage.entry[0].changes[0].value.messages[0].text.body =
+      String(createdGroup);
+    const outputUser1FifthMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1FifthMessage);
+    expect(outputUser1FourthMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputUser1FourthMessage.body).toBe('Enter group message sent');
+    expect(outputUser1FifthMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputUser1FifthMessage.body).toBe('Home message sent');
   });
 });

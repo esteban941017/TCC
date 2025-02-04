@@ -37,6 +37,45 @@ export const webhookEventPayload = {
     },
   ],
 };
+export const webhookSecondUserEventPayload = {
+  object: 'whatsapp_business_account',
+  entry: [
+    {
+      id: '535914459606173',
+      changes: [
+        {
+          value: {
+            messaging_product: 'whatsapp',
+            metadata: {
+              display_phone_number: '15551378597',
+              phone_number_id: '505669475971321',
+            },
+            contacts: [
+              {
+                profile: {
+                  name: 'Nicolas',
+                },
+                wa_id: '573507098262',
+              },
+            ],
+            messages: [
+              {
+                from: '573507098262',
+                id: 'wamid.HBgMNTUzMTkwNzIzNzAwFQIAEhgWM0VCMDBGNTA4NzkxMzU3NTk5NDFCMgA=',
+                timestamp: '1737754494',
+                text: {
+                  body: 'Segunda mensagem',
+                },
+                type: 'text',
+              },
+            ],
+          },
+          field: 'messages',
+        },
+      ],
+    },
+  ],
+};
 export const webhookMetaEventPayload = {
   object: 'whatsapp_business_account',
   entry: [

@@ -31,12 +31,7 @@ describe('Group service test', () => {
     expect(outputCreateGroup.createdAt).toBeDefined();
     expect(outputCreateGroup.members).toEqual([inputCreateGroup.createdBy]);
     expect(outputCreateGroup.expenses).toEqual([]);
-    expect(outputCreateGroup.temporaryExpense).toEqual({
-      date: '',
-      description: '',
-      amount: '',
-      members: [],
-    });
+    expect(outputCreateGroup.temporaryExpenses).toEqual([]);
     await groupRepository.deleteGroup(outputCreateGroup.id);
   });
 
@@ -56,8 +51,8 @@ describe('Group service test', () => {
     expect(outputGetGroup?.createdAt).toBe(outputCreateGroup.createdAt);
     expect(outputGetGroup?.members).toEqual(outputCreateGroup.members);
     expect(outputGetGroup?.expenses).toEqual(outputCreateGroup.expenses);
-    expect(outputGetGroup?.temporaryExpense).toEqual(
-      outputCreateGroup.temporaryExpense,
+    expect(outputGetGroup?.temporaryExpenses).toEqual(
+      outputCreateGroup.temporaryExpenses,
     );
     await groupRepository.deleteGroup(outputCreateGroup.id);
   });
@@ -82,12 +77,15 @@ describe('Group service test', () => {
           members: ['553190723700', '553111111111'],
         },
       ],
-      temporaryExpense: {
-        date: new Date().toISOString(),
-        description: 'Test temporary expense',
-        amount: '10.00',
-        members: ['553190723700'],
-      },
+      temporaryExpenses: [
+        {
+          date: new Date().toISOString(),
+          description: 'Test temporary expense',
+          amount: '10.00',
+          members: ['553190723700'],
+          createdBy: '553190723700',
+        },
+      ],
     };
     const outputUpdateGroup = await groupService.updateGroup(
       outputCreateGroup.id,
@@ -98,8 +96,8 @@ describe('Group service test', () => {
     expect(outputUpdateGroup.createdAt).toBe(outputCreateGroup.createdAt);
     expect(outputUpdateGroup.members).toEqual(inputUpdateGroup.members);
     expect(outputUpdateGroup.expenses).toEqual(inputUpdateGroup.expenses);
-    expect(outputUpdateGroup.temporaryExpense).toEqual(
-      inputUpdateGroup.temporaryExpense,
+    expect(outputUpdateGroup.temporaryExpenses).toEqual(
+      inputUpdateGroup.temporaryExpenses,
     );
     await groupRepository.deleteGroup(outputCreateGroup.id);
   });

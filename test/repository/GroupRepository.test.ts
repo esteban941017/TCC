@@ -26,7 +26,9 @@ describe('Account repository test', () => {
     expect(outputCreateGroup.createdAt).toBe(group.createdAt);
     expect(outputCreateGroup.members).toEqual(group.members);
     expect(outputCreateGroup.expenses).toEqual(group.expenses);
-    expect(outputCreateGroup.temporaryExpense).toEqual(group.temporaryExpense);
+    expect(outputCreateGroup.temporaryExpenses).toEqual(
+      group.temporaryExpenses,
+    );
     await groupRepository.deleteGroup(group.id);
   });
 
@@ -44,7 +46,7 @@ describe('Account repository test', () => {
     expect(outputGetById?.createdAt).toBe(group.createdAt);
     expect(outputGetById?.members).toEqual(group.members);
     expect(outputGetById?.expenses).toEqual(group.expenses);
-    expect(outputGetById?.temporaryExpense).toEqual(group.temporaryExpense);
+    expect(outputGetById?.temporaryExpenses).toEqual(group.temporaryExpenses);
     await groupRepository.deleteGroup(group.id);
   });
 
@@ -76,8 +78,8 @@ describe('Account repository test', () => {
     expect(outputUpdateGroup?.createdAt).toBe(outputUpdateGroup.createdAt);
     expect(outputUpdateGroup?.members).toEqual(outputUpdateGroup.members);
     expect(outputUpdateGroup?.expenses).toEqual(outputUpdateGroup.expenses);
-    expect(outputUpdateGroup?.temporaryExpense).toEqual(
-      outputUpdateGroup.temporaryExpense,
+    expect(outputUpdateGroup?.temporaryExpenses).toEqual(
+      outputUpdateGroup.temporaryExpenses,
     );
     await groupRepository.deleteGroup(group.id);
   });

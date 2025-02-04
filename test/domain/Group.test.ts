@@ -13,12 +13,7 @@ describe('Group domain test', () => {
     expect(outputCreateGroup.createdAt).toBeDefined();
     expect(outputCreateGroup.members).toEqual([inputCreateGroup.createdBy]);
     expect(outputCreateGroup.expenses).toEqual([]);
-    expect(outputCreateGroup.temporaryExpense).toEqual({
-      date: '',
-      description: '',
-      amount: '',
-      members: [],
-    });
+    expect(outputCreateGroup.temporaryExpenses).toEqual([]);
   });
 
   test('Should restore a group', () => {
@@ -32,12 +27,15 @@ describe('Group domain test', () => {
         String(Math.floor(Math.random() * 10000000000)),
       ],
       expenses: [],
-      temporaryExpense: {
-        date: '',
-        description: '',
-        amount: '',
-        members: [],
-      },
+      temporaryExpenses: [
+        {
+          date: '',
+          description: 'teste',
+          amount: '',
+          members: [],
+          createdBy: '',
+        },
+      ],
     };
     const outputRestoreGroup = Group.restore(
       inputRestoreGroup.id,
@@ -45,15 +43,15 @@ describe('Group domain test', () => {
       inputRestoreGroup.createdAt,
       inputRestoreGroup.members,
       inputRestoreGroup.expenses,
-      inputRestoreGroup.temporaryExpense,
+      inputRestoreGroup.temporaryExpenses,
     );
     expect(outputRestoreGroup.id).toBe(inputRestoreGroup.id);
     expect(outputRestoreGroup.name).toBe(inputRestoreGroup.name);
     expect(outputRestoreGroup.createdAt).toBe(inputRestoreGroup.createdAt);
     expect(outputRestoreGroup.members).toEqual(inputRestoreGroup.members);
     expect(outputRestoreGroup.expenses).toEqual(inputRestoreGroup.expenses);
-    expect(outputRestoreGroup.temporaryExpense).toEqual(
-      inputRestoreGroup.temporaryExpense,
+    expect(outputRestoreGroup.temporaryExpenses).toEqual(
+      inputRestoreGroup.temporaryExpenses,
     );
   });
 });

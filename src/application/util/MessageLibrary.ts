@@ -8,8 +8,7 @@ export const MessageLibrary = {
   4. Consultar as minhas categorias
   5. Registrar uma despesa grupal
   6. Registrar ou entrar em um grupo
-  7. Consultar os meus grupos
-  8. Sair`,
+  7. Consultar os meus grupos`,
   registerPersonalExpenseDate:
     'Por favor, insira a data da despesa em formato DD/MM/AAAA',
   registerPersonalExpenseDescription:
@@ -30,6 +29,17 @@ export const MessageLibrary = {
   noRegisteredCategories:
     'Antes de registrar uma despesa, você deve registrar pelo menos uma categoria',
   listCategories: `Categorias:\n\n`,
+  noRegisteredGroups:
+    'Antes de registrar uma despesa, você deve fazer parte de um grupo',
+  registerGroup: `O que deseja fazer?
+    
+  1. Registrar um novo grupo
+  2. Entrar em um grupo existente`,
+  registerGroupName: 'Por favor, insira o nome do novo grupo',
+  registeredGroup: 'Grupo {{groupName}} registrado com id {{groupId}}',
+  enterGroup: 'Por favor, insira o codigo do grupo',
+  invalidGroupId: 'O grupo indicado não existe',
+  enteredGroup: 'Você entrou no grupo {{groupName}}',
   invalid: 'Por favor, selecione uma opção correta',
 };
 
