@@ -29,6 +29,7 @@ describe('Account domain test', () => {
           amount: '',
           members: [],
           createdBy: '',
+          groupId: '',
         },
       },
     };

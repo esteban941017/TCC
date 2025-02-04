@@ -47,6 +47,7 @@ describe('Account service test', () => {
       amount: '',
       members: [],
       createdBy: '',
+      groupId: '',
     });
   });
 
@@ -73,6 +74,7 @@ describe('Account service test', () => {
       amount: '',
       members: [],
       createdBy: '',
+      groupId: '',
     });
   });
 
