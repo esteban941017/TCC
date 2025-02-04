@@ -908,7 +908,6 @@ export const handler = async (event: any): Promise<any> => {
           }),
         );
         returnMessage = 'Home message sent';
-        returnMessage = 'Home message sent';
       }
     }
 
