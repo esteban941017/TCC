@@ -559,4 +559,52 @@ describe('Send messages test suite', () => {
       if (axios.isAxiosError(error)) console.error(error.response?.data);
     }
   });
+
+  // test('Should send a template message', async () => {
+  //   const inputCreateMessage = {};
+  //   const outputCreateMessage = {};
+  //   try {
+  //     const outputSendMessage = await axios.post(
+  //       facebookUrl,
+  //       {
+  //         messaging_product: 'whatsapp',
+  //         to: '+5531990723700',
+  //         type: 'template',
+  //         template: {
+  //           name: 'registered_expense',
+  //           language: {
+  //             code: 'pt_BR',
+  //           },
+  //           components: [
+  //             {
+  //               type: 'body',
+  //               parameters: [
+  //                 {
+  //                   type: 'text',
+  //                   text: 'Esteban',
+  //                 },
+  //                 {
+  //                   type: 'text',
+  //                   text: 'Cerveja',
+  //                 },
+  //                 {
+  //                   type: 'text',
+  //                   text: 'Viagem',
+  //                 },
+  //               ],
+  //             },
+  //           ],
+  //         },
+  //       },
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           Authorization: `Bearer ${process.env.API_KEY}`,
+  //         },
+  //       },
+  //     );
+  //   } catch (error) {
+  //     if (axios.isAxiosError(error)) console.error(error.response?.data);
+  //   }
+  // });
 });
