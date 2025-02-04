@@ -33,15 +33,15 @@ describe('Webhook Controller', () => {
     jest.restoreAllMocks();
     const account1 = await accountRepository.getByPhone('553190723700');
     const account2 = await accountRepository.getByPhone('573507098262');
-    if (account1) await accountRepository.deleteAccount('553190723700');
-    if (account2) await accountRepository.deleteAccount('573507098262');
+    // if (account1) await accountRepository.deleteAccount('553190723700');
+    // if (account2) await accountRepository.deleteAccount('573507098262');
   });
 
   afterAll(async () => {
     const account1 = await accountRepository.getByPhone('553190723700');
     const account2 = await accountRepository.getByPhone('573507098262');
-    if (account1) await accountRepository.deleteAccount('553190723700');
-    if (account2) await accountRepository.deleteAccount('573507098262');
+    // if (account1) await accountRepository.deleteAccount('553190723700');
+    // if (account2) await accountRepository.deleteAccount('573507098262');
   });
 
   test('GET / - should verify webhook', async () => {
@@ -682,5 +682,183 @@ describe('Webhook Controller', () => {
     );
     expect(outputUser1FourteenthMessage.status).toBe(HttpStatusCodes.OK);
     expect(outputUser1FourteenthMessage.body).toBe('Home message sent');
+  });
+
+  test('POST /test - should list group expenses', async () => {
+    const inputUser1FirstMessage = webhookEventPayload;
+    inputUser1FirstMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1FirstMessage);
+    const inputUser2FirstMessage = webhookSecondUserEventPayload;
+    inputUser2FirstMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Oi';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser2FirstMessage);
+    const inputUser1SecondMessage = webhookEventPayload;
+    inputUser1SecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Esteban Ramirez';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1SecondMessage);
+    const inputUser2SecondMessage = webhookSecondUserEventPayload;
+    inputUser2SecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Nicolas';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser2SecondMessage);
+    const inputUser2ThirdMessage = webhookSecondUserEventPayload;
+    inputUser2ThirdMessage.entry[0].changes[0].value.messages[0].text.body =
+      '6';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser2ThirdMessage);
+    const inputUser2FourthMessage = webhookSecondUserEventPayload;
+    inputUser2FourthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser2FourthMessage);
+    const inputUser2FifthMessage = webhookSecondUserEventPayload;
+    inputUser2FifthMessage.entry[0].changes[0].value.messages[0].text.body =
+      'My group name';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser2FifthMessage);
+    const createdGroup = (
+      await accountService.getAccount(
+        webhookSecondUserEventPayload.entry[0].changes[0].value.messages[0]
+          .from,
+      )
+    )?.accountData.groups[0];
+    const inputUser1ThirdMessage = webhookEventPayload;
+    inputUser1ThirdMessage.entry[0].changes[0].value.messages[0].text.body =
+      '6';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1ThirdMessage);
+    const inputUser1FourthMessage = webhookEventPayload;
+    inputUser1FourthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '2';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1FourthMessage);
+    const inputUser1FifthMessage = webhookEventPayload;
+    inputUser1FifthMessage.entry[0].changes[0].value.messages[0].text.body =
+      String(createdGroup);
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1FifthMessage);
+    const inputUser1SixthMessage = webhookEventPayload;
+    inputUser1SixthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '6';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1SixthMessage);
+    const inputUser1SeventhMessage = webhookEventPayload;
+    inputUser1SeventhMessage.entry[0].changes[0].value.messages[0].text.body =
+      '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1SeventhMessage);
+    const inputUser1EightMessage = webhookEventPayload;
+    inputUser1EightMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Group Number 2';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1EightMessage);
+    const inputUser1NinethMessage = webhookEventPayload;
+    inputUser1NinethMessage.entry[0].changes[0].value.messages[0].text.body =
+      '5';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1NinethMessage);
+    const inputUser1TenthMessage = webhookEventPayload;
+    inputUser1TenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1TenthMessage);
+    const inputUser1EleventhMessage = webhookEventPayload;
+    inputUser1EleventhMessage.entry[0].changes[0].value.messages[0].text.body =
+      '28/01/2025';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1EleventhMessage);
+    const inputUser1TwelvethMessage = webhookEventPayload;
+    inputUser1TwelvethMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Test description';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1TwelvethMessage);
+    const inputUser1ThirteenthMessage = webhookEventPayload;
+    inputUser1ThirteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '130,01';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1ThirteenthMessage);
+    const inputUser1FourteenthMessage = webhookEventPayload;
+    inputUser1FourteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '1, 2';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1FourteenthMessage);
+    const inputUser1FiveteenthMessage = webhookEventPayload;
+    inputUser1FiveteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '5';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1FiveteenthMessage);
+    const inputUser1SixteenthMessage = webhookEventPayload;
+    inputUser1SixteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1SixteenthMessage);
+    const inputUser1SeventeenthMessage = webhookEventPayload;
+    inputUser1SeventeenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '29/01/2025';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1SeventeenthMessage);
+    const inputUser1EighteenthMessage = webhookEventPayload;
+    inputUser1EighteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      'Test description 2';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1EighteenthMessage);
+    const inputUser1NineteenthMessage = webhookEventPayload;
+    inputUser1NineteenthMessage.entry[0].changes[0].value.messages[0].text.body =
+      '50,99';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1NineteenthMessage);
+    const inputUser1TweniethMessage = webhookEventPayload;
+    inputUser1TweniethMessage.entry[0].changes[0].value.messages[0].text.body =
+      '1';
+    await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1TweniethMessage);
+    const inputUser1TwentyfirstMessage = webhookEventPayload;
+    inputUser1TwentyfirstMessage.entry[0].changes[0].value.messages[0].text.body =
+      '7';
+    const outputUser1TwentyfirstMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1TwentyfirstMessage);
+    const inputUser1TwentysecondMessage = webhookEventPayload;
+    inputUser1TwentysecondMessage.entry[0].changes[0].value.messages[0].text.body =
+      '1';
+    const outputUser1TwentysecondMessage = await request(httpClient.app)
+      .post(`/${BaseRoute}/webhook/test`)
+      .send(inputUser1TwentysecondMessage);
+
+    expect(outputUser1TwentyfirstMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputUser1TwentyfirstMessage.body).toBe(
+      'List group expense menu message sent',
+    );
+    expect(outputUser1TwentysecondMessage.status).toBe(HttpStatusCodes.OK);
+    expect(outputUser1TwentysecondMessage.body).toBe('Home message sent');
   });
 });

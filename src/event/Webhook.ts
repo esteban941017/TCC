@@ -238,7 +238,45 @@ export const handler = async (event: any): Promise<any> => {
           }),
         );
         returnMessage = 'Register group message sent';
-      } else if (message.messageBody === '7') {
+      }
+
+      //LIST GROUP EXPENSES
+      else if (message.messageBody === '7') {
+        if (!account.accountData.groups.length) {
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body: MessageLibrary.noRegisteredGroups,
+            }),
+          );
+          const firstName = account.accountData.name.split(' ')[0];
+          const name =
+            firstName.toLowerCase().charAt(0).toUpperCase() +
+            firstName.toLowerCase().slice(1);
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body: MessageLibrary.home.replace('{{name}}', name),
+            }),
+          );
+          returnMessage = 'No registered groups message sent';
+        } else {
+          account = await accountService.updateAccount(message.from, {
+            currentPage: 'listGroupExpenseMenu',
+          });
+          const groups = await Promise.all(
+            account.accountData.groups.map(async groupId =>
+              groupService.getGroup(groupId),
+            ),
+          );
+          const mappedGroups = groups.reduce((acc, curr, index) => {
+            return (acc += `${index + 1}. ${curr?.name}\n`);
+          }, '');
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body: MessageLibrary.listGroupExpenseMenu + mappedGroups,
+            }),
+          );
+          returnMessage = 'List group expense menu message sent';
+        }
       }
     }
 
@@ -412,12 +450,13 @@ export const handler = async (event: any): Promise<any> => {
               account?.accountData.categories[Number(message.messageBody) - 1];
             return expense.category === selectedCategory;
           })
-          .reduce((acc, expense) => {
+          .reduce((acc: any, expense) => {
             const description = `*Descrição:* ${expense.description}` + '\n';
             const date =
               `*Data:* ${new Date(expense.date).toLocaleDateString('pt-BR')}` +
               '\n';
-            const amount = `*Valor:* R$ ${expense.amount}` + '\n\n';
+            const amount =
+              `*Valor:* R$ ${expense.amount.replace('.', ',')}` + '\n\n';
             return (acc += description + date + amount);
           }, '');
         if (personalExpenses.length)
@@ -794,6 +833,81 @@ export const handler = async (event: any): Promise<any> => {
             body: MessageLibrary.home.replace('{{name}}', name),
           }),
         );
+        returnMessage = 'Home message sent';
+      }
+    }
+
+    //LIST GROUP EXPENSE MENU
+    else if (account.accountData.currentPage === 'listGroupExpenseMenu') {
+      const validGroups = account.accountData.groups
+        .map((group, index) => String(index + 1))
+        .includes(message.messageBody);
+      const groups = await Promise.all(
+        account.accountData.groups.map(async groupId =>
+          groupService.getGroup(groupId),
+        ),
+      );
+      if (!validGroups) {
+        const mappedGroups = groups.reduce((acc, curr, index) => {
+          return (acc += `${index + 1}. ${curr?.name}\n`);
+        }, '');
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.listGroupExpenseMenu + mappedGroups,
+          }),
+        );
+      } else {
+        const selectedGroup = groups.filter(
+          (group, index) => String(index + 1) === message.messageBody,
+        )[0];
+        account = await accountService.updateAccount(message.from, {
+          currentPage: 'home',
+        });
+        if (!selectedGroup?.expenses.length) {
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body: MessageLibrary.noRegisteredGroupExpenses,
+            }),
+          );
+        } else {
+          const mappedExpenses = await Promise.all(
+            selectedGroup.expenses.map(async expense => {
+              const description = `*Descrição*: ${expense.description}\n`;
+              const date = `*Data:* ${new Date(expense.date).toLocaleDateString('pt-BR')}\n`;
+              const value = `*Valor:* R$ ${expense.amount.replace('.', ',')}\n`;
+              const involvedAccounts = await Promise.all(
+                expense.members.map(async member =>
+                  accountService.getAccount(member),
+                ),
+              );
+              const members = `*Envolvidos*: \n${involvedAccounts
+                .map(account => `- ${account?.accountData.name}`)
+                .join('\n')}\n`;
+
+              return description + date + value + members + '\n';
+            }),
+          );
+          const finalResult = mappedExpenses.join('');
+          await messageGateway.sendMessage(
+            Text.create(phoneNumber, {
+              body:
+                MessageLibrary.listGroupExpenses.replace(
+                  '{{group}}',
+                  selectedGroup.name,
+                ) + finalResult,
+            }),
+          );
+        }
+        const firstName = account.accountData.name.split(' ')[0];
+        const name =
+          firstName.toLowerCase().charAt(0).toUpperCase() +
+          firstName.toLowerCase().slice(1);
+        await messageGateway.sendMessage(
+          Text.create(phoneNumber, {
+            body: MessageLibrary.home.replace('{{name}}', name),
+          }),
+        );
+        returnMessage = 'Home message sent';
         returnMessage = 'Home message sent';
       }
     }

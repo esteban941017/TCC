@@ -49,6 +49,9 @@ export const MessageLibrary = {
   registerGroupExpenseMembers:
     'Por favor, selecione o codigo dos membros do grupo envolvidos na despesa separados por virgula (ex. 1,3,4): \n\n',
   registeredGroupExpense: 'Despesa registrada com sucesso',
+  listGroupExpenseMenu: `Selecione o grupo que você deseja consultar\n\n`,
+  noRegisteredGroupExpenses: 'Não existe nenhuma despesa registrada',
+  listGroupExpenses: 'Despesas do grupo {{group}}: \n\n',
   invalid: 'Por favor, selecione uma opção correta',
 };
 
