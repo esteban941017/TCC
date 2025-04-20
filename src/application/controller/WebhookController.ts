@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { HttpStatusCodes } from '../util/HttpStatusCodes';
-import { handler } from '../../event/Webhook';
+import { handler, handlerMock } from '../../event/Webhook';
 
 const routes = Router();
 const verificationToken = process.env.META_VERIFICATION_TOKEN;
@@ -47,6 +47,20 @@ routes.get('/', async (req, res) => {
 routes.post('/test', async (req, res) => {
   try {
     const webhookHandlerResponse = await handler(req);
+    return res
+      .status(webhookHandlerResponse.statusCode)
+      .json(webhookHandlerResponse.body);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Internal Server Error' });
+  }
+});
+
+routes.post('/test-load', async (req, res) => {
+  try {
+    const webhookHandlerResponse = await handlerMock(req);
     return res
       .status(webhookHandlerResponse.statusCode)
       .json(webhookHandlerResponse.body);

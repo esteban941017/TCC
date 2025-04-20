@@ -1,0 +1,44 @@
+config:
+  target: 'http://localhost:8000/meu-cofrinho'
+  phases:
+    - duration: 60
+      arrivalRate: 50 # Começa já com 50 req/s
+      rampTo: 150 # Aumenta até 150 req/s
+      name: 'Carga progressiva'
+    - duration: 90
+      arrivalRate: 250 # Pico com 250 req/s
+      name: 'Pico intenso'
+    - duration: 30
+      arrivalRate: 50 # Resfriamento
+      name: 'Desaceleração'
+  defaults:
+    headers:
+      Content-Type: application/json
+
+scenarios:
+  - name: Simulação de mensagem do WhatsApp
+    flow:
+      - post:
+          url: '/webhook/test-load'
+          json:
+            object: 'whatsapp_business_account'
+            entry:
+              - id: '535914459606172'
+                changes:
+                  - value:
+                      messaging_product: 'whatsapp'
+                      metadata:
+                        display_phone_number: '15551378597'
+                        phone_number_id: '505669475971321'
+                      contacts:
+                        - profile:
+                            name: 'Esteban Ramírez'
+                          wa_id: '553190723700'
+                      messages:
+                        - from: '553190723700'
+                          id: 'wamid.HBgMNTUzMTkwNzIzNzAwFQIAEhgWM0VCMDBGNTA4NzkxMzU3NTk5NDFCMgA='
+                          timestamp: '1737754494'
+                          text:
+                            body: 'Text test message'
+                          type: 'text'
+                    field: 'messages'

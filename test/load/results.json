@@ -1,0 +1,399 @@
+{
+  "aggregate": {
+    "counters": {
+      "vusers.created_by_name.Simulação de mensagem do WhatsApp": 50,
+      "vusers.created": 50,
+      "http.requests": 50,
+      "http.codes.200": 50,
+      "http.responses": 50,
+      "http.downloaded_bytes": 1100,
+      "plugins.metrics-by-endpoint./meu-cofrinho/webhook/test-load.codes.200": 50,
+      "vusers.failed": 0,
+      "vusers.completed": 50
+    },
+    "rates": {
+      "http.request_rate": 17
+    },
+    "firstCounterAt": 1745179147117,
+    "firstHistogramAt": 1745179148570,
+    "lastCounterAt": 1745179152764,
+    "lastHistogramAt": 1745179152764,
+    "firstMetricAt": 1745179147117,
+    "lastMetricAt": 1745179152764,
+    "period": 1745179150000,
+    "summaries": {
+      "http.response_time": {
+        "min": 552,
+        "max": 1989,
+        "count": 50,
+        "mean": 848.7,
+        "p50": 685.5,
+        "median": 685.5,
+        "p75": 1022.7,
+        "p90": 1353.1,
+        "p95": 1436.8,
+        "p99": 1525.7,
+        "p999": 1525.7
+      },
+      "http.response_time.2xx": {
+        "min": 552,
+        "max": 1989,
+        "count": 50,
+        "mean": 848.7,
+        "p50": 685.5,
+        "median": 685.5,
+        "p75": 1022.7,
+        "p90": 1353.1,
+        "p95": 1436.8,
+        "p99": 1525.7,
+        "p999": 1525.7
+      },
+      "plugins.metrics-by-endpoint.response_time./meu-cofrinho/webhook/test-load": {
+        "min": 552,
+        "max": 1989,
+        "count": 50,
+        "mean": 848.7,
+        "p50": 685.5,
+        "median": 685.5,
+        "p75": 1022.7,
+        "p90": 1353.1,
+        "p95": 1436.8,
+        "p99": 1525.7,
+        "p999": 1525.7
+      },
+      "vusers.session_length": {
+        "min": 555,
+        "max": 1996,
+        "count": 50,
+        "mean": 815.5,
+        "p50": 685.5,
+        "median": 685.5,
+        "p75": 944,
+        "p90": 1153.1,
+        "p95": 1274.3,
+        "p99": 1353.1,
+        "p999": 1353.1
+      }
+    },
+    "histograms": {
+      "http.response_time": {
+        "min": 552,
+        "max": 1989,
+        "count": 50,
+        "mean": 848.7,
+        "p50": 685.5,
+        "median": 685.5,
+        "p75": 1022.7,
+        "p90": 1353.1,
+        "p95": 1436.8,
+        "p99": 1525.7,
+        "p999": 1525.7
+      },
+      "http.response_time.2xx": {
+        "min": 552,
+        "max": 1989,
+        "count": 50,
+        "mean": 848.7,
+        "p50": 685.5,
+        "median": 685.5,
+        "p75": 1022.7,
+        "p90": 1353.1,
+        "p95": 1436.8,
+        "p99": 1525.7,
+        "p999": 1525.7
+      },
+      "plugins.metrics-by-endpoint.response_time./meu-cofrinho/webhook/test-load": {
+        "min": 552,
+        "max": 1989,
+        "count": 50,
+        "mean": 848.7,
+        "p50": 685.5,
+        "median": 685.5,
+        "p75": 1022.7,
+        "p90": 1353.1,
+        "p95": 1436.8,
+        "p99": 1525.7,
+        "p999": 1525.7
+      },
+      "vusers.session_length": {
+        "min": 555,
+        "max": 1996,
+        "count": 50,
+        "mean": 815.5,
+        "p50": 685.5,
+        "median": 685.5,
+        "p75": 944,
+        "p90": 1153.1,
+        "p95": 1274.3,
+        "p99": 1353.1,
+        "p999": 1353.1
+      }
+    }
+  },
+  "intermediate": [
+    {
+      "counters": {
+        "vusers.created_by_name.Simulação de mensagem do WhatsApp": 27,
+        "vusers.created": 27,
+        "http.requests": 27,
+        "http.codes.200": 21,
+        "http.responses": 21,
+        "http.downloaded_bytes": 462,
+        "plugins.metrics-by-endpoint./meu-cofrinho/webhook/test-load.codes.200": 21,
+        "vusers.failed": 0,
+        "vusers.completed": 21
+      },
+      "rates": {
+        "http.request_rate": 13
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1745179147117,
+      "firstHistogramAt": 1745179148570,
+      "lastCounterAt": 1745179149987,
+      "lastHistogramAt": 1745179149987,
+      "firstMetricAt": 1745179147117,
+      "lastMetricAt": 1745179149987,
+      "period": "1745179140000",
+      "summaries": {
+        "http.response_time": {
+          "min": 687,
+          "max": 1529,
+          "count": 21,
+          "mean": 1060,
+          "p50": 1022.7,
+          "median": 1022.7,
+          "p75": 1300.1,
+          "p90": 1436.8,
+          "p95": 1525.7,
+          "p99": 1525.7,
+          "p999": 1525.7
+        },
+        "http.response_time.2xx": {
+          "min": 687,
+          "max": 1529,
+          "count": 21,
+          "mean": 1060,
+          "p50": 1022.7,
+          "median": 1022.7,
+          "p75": 1300.1,
+          "p90": 1436.8,
+          "p95": 1525.7,
+          "p99": 1525.7,
+          "p999": 1525.7
+        },
+        "plugins.metrics-by-endpoint.response_time./meu-cofrinho/webhook/test-load": {
+          "min": 687,
+          "max": 1529,
+          "count": 21,
+          "mean": 1060,
+          "p50": 1022.7,
+          "median": 1022.7,
+          "p75": 1300.1,
+          "p90": 1436.8,
+          "p95": 1525.7,
+          "p99": 1525.7,
+          "p999": 1525.7
+        },
+        "vusers.session_length": {
+          "min": 690.7,
+          "max": 1365,
+          "count": 21,
+          "mean": 974.7,
+          "p50": 944,
+          "median": 944,
+          "p75": 1130.2,
+          "p90": 1274.3,
+          "p95": 1353.1,
+          "p99": 1353.1,
+          "p999": 1353.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 687,
+          "max": 1529,
+          "count": 21,
+          "mean": 1060,
+          "p50": 1022.7,
+          "median": 1022.7,
+          "p75": 1300.1,
+          "p90": 1436.8,
+          "p95": 1525.7,
+          "p99": 1525.7,
+          "p999": 1525.7
+        },
+        "http.response_time.2xx": {
+          "min": 687,
+          "max": 1529,
+          "count": 21,
+          "mean": 1060,
+          "p50": 1022.7,
+          "median": 1022.7,
+          "p75": 1300.1,
+          "p90": 1436.8,
+          "p95": 1525.7,
+          "p99": 1525.7,
+          "p999": 1525.7
+        },
+        "plugins.metrics-by-endpoint.response_time./meu-cofrinho/webhook/test-load": {
+          "min": 687,
+          "max": 1529,
+          "count": 21,
+          "mean": 1060,
+          "p50": 1022.7,
+          "median": 1022.7,
+          "p75": 1300.1,
+          "p90": 1436.8,
+          "p95": 1525.7,
+          "p99": 1525.7,
+          "p999": 1525.7
+        },
+        "vusers.session_length": {
+          "min": 690.7,
+          "max": 1365,
+          "count": 21,
+          "mean": 974.7,
+          "p50": 944,
+          "median": 944,
+          "p75": 1130.2,
+          "p90": 1274.3,
+          "p95": 1353.1,
+          "p99": 1353.1,
+          "p999": 1353.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Simulação de mensagem do WhatsApp": 23,
+        "vusers.created": 23,
+        "http.requests": 23,
+        "http.codes.200": 29,
+        "http.responses": 29,
+        "http.downloaded_bytes": 638,
+        "plugins.metrics-by-endpoint./meu-cofrinho/webhook/test-load.codes.200": 29,
+        "vusers.failed": 0,
+        "vusers.completed": 29
+      },
+      "rates": {
+        "http.request_rate": 17
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1745179150000,
+      "firstHistogramAt": 1745179150003,
+      "lastCounterAt": 1745179152764,
+      "lastHistogramAt": 1745179152764,
+      "firstMetricAt": 1745179150000,
+      "lastMetricAt": 1745179152764,
+      "period": "1745179150000",
+      "summaries": {
+        "http.response_time": {
+          "min": 552,
+          "max": 1989,
+          "count": 29,
+          "mean": 695.7,
+          "p50": 608,
+          "median": 608,
+          "p75": 658.6,
+          "p90": 713.5,
+          "p95": 1022.7,
+          "p99": 1107.9,
+          "p999": 1107.9
+        },
+        "http.response_time.2xx": {
+          "min": 552,
+          "max": 1989,
+          "count": 29,
+          "mean": 695.7,
+          "p50": 608,
+          "median": 608,
+          "p75": 658.6,
+          "p90": 713.5,
+          "p95": 1022.7,
+          "p99": 1107.9,
+          "p999": 1107.9
+        },
+        "plugins.metrics-by-endpoint.response_time./meu-cofrinho/webhook/test-load": {
+          "min": 552,
+          "max": 1989,
+          "count": 29,
+          "mean": 695.7,
+          "p50": 608,
+          "median": 608,
+          "p75": 658.6,
+          "p90": 713.5,
+          "p95": 1022.7,
+          "p99": 1107.9,
+          "p999": 1107.9
+        },
+        "vusers.session_length": {
+          "min": 555,
+          "max": 1996,
+          "count": 29,
+          "mean": 700.3,
+          "p50": 620.3,
+          "median": 620.3,
+          "p75": 658.6,
+          "p90": 727.9,
+          "p95": 1022.7,
+          "p99": 1107.9,
+          "p999": 1107.9
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 552,
+          "max": 1989,
+          "count": 29,
+          "mean": 695.7,
+          "p50": 608,
+          "median": 608,
+          "p75": 658.6,
+          "p90": 713.5,
+          "p95": 1022.7,
+          "p99": 1107.9,
+          "p999": 1107.9
+        },
+        "http.response_time.2xx": {
+          "min": 552,
+          "max": 1989,
+          "count": 29,
+          "mean": 695.7,
+          "p50": 608,
+          "median": 608,
+          "p75": 658.6,
+          "p90": 713.5,
+          "p95": 1022.7,
+          "p99": 1107.9,
+          "p999": 1107.9
+        },
+        "plugins.metrics-by-endpoint.response_time./meu-cofrinho/webhook/test-load": {
+          "min": 552,
+          "max": 1989,
+          "count": 29,
+          "mean": 695.7,
+          "p50": 608,
+          "median": 608,
+          "p75": 658.6,
+          "p90": 713.5,
+          "p95": 1022.7,
+          "p99": 1107.9,
+          "p999": 1107.9
+        },
+        "vusers.session_length": {
+          "min": 555,
+          "max": 1996,
+          "count": 29,
+          "mean": 700.3,
+          "p50": 620.3,
+          "median": 620.3,
+          "p75": 658.6,
+          "p90": 727.9,
+          "p95": 1022.7,
+          "p99": 1107.9,
+          "p999": 1107.9
+        }
+      }
+    }
+  ]
+}
