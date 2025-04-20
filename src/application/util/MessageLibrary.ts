@@ -36,7 +36,7 @@ export const MessageLibrary = {
   1. Registrar um novo grupo
   2. Entrar em um grupo existente`,
   registerGroupName: 'Por favor, insira o nome do novo grupo',
-  registeredGroup: 'Grupo {{groupName}} registrado com id {{groupId}}',
+  registeredGroup: 'Grupo {{groupName}} registrado com id:',
   enterGroup: 'Por favor, insira o codigo do grupo',
   invalidGroupId: 'O grupo indicado não existe',
   enteredGroup: 'Você entrou no grupo {{groupName}}',

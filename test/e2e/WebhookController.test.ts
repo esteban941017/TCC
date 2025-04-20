@@ -33,15 +33,15 @@ describe('Webhook Controller', () => {
     jest.restoreAllMocks();
     const account1 = await accountRepository.getByPhone('553190723700');
     const account2 = await accountRepository.getByPhone('573507098262');
-    // if (account1) await accountRepository.deleteAccount('553190723700');
-    // if (account2) await accountRepository.deleteAccount('573507098262');
+    if (account1) await accountRepository.deleteAccount('553190723700');
+    if (account2) await accountRepository.deleteAccount('573507098262');
   });
 
   afterAll(async () => {
     const account1 = await accountRepository.getByPhone('553190723700');
     const account2 = await accountRepository.getByPhone('573507098262');
-    // if (account1) await accountRepository.deleteAccount('553190723700');
-    // if (account2) await accountRepository.deleteAccount('573507098262');
+    if (account1) await accountRepository.deleteAccount('553190723700');
+    if (account2) await accountRepository.deleteAccount('573507098262');
   });
 
   test('GET / - should verify webhook', async () => {

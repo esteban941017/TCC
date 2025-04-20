@@ -6,6 +6,7 @@ import { MessageLibrary } from '../application/util/MessageLibrary';
 import adjustPhone from '../application/util/PhoneAdjuster';
 import { validateAmount } from '../application/util/ValidateAmount';
 import { validateDate } from '../application/util/ValidateDate';
+import Template from '../domain/MessageTypes/Template';
 import Text from '../domain/MessageTypes/Text';
 import DynamoDBTableGateway from '../infra/database/DynamoDBTableGateway';
 import MessageGateway from '../infra/gateway/MessageGateway';
@@ -562,9 +563,15 @@ export const handler = async (event: any): Promise<any> => {
       });
       await messageGateway.sendMessage(
         Text.create(phoneNumber, {
-          body: MessageLibrary.registeredGroup
-            .replace('{{groupName}}', message.messageBody)
-            .replace('{{groupId}}', group.id),
+          body: MessageLibrary.registeredGroup.replace(
+            '{{groupName}}',
+            message.messageBody,
+          ),
+        }),
+      );
+      await messageGateway.sendMessage(
+        Text.create(phoneNumber, {
+          body: group.id,
         }),
       );
       const firstName = account.accountData.name.split(' ')[0];
@@ -808,6 +815,51 @@ export const handler = async (event: any): Promise<any> => {
             },
           ],
         });
+        const mappedDeclaredMembers = declaredMembers.map(declaredMember => {
+          return groupMembers.filter(
+            (member, index) => Number(declaredMember) === index + 1,
+          )[0];
+        });
+        const membersToNotify = mappedDeclaredMembers.filter(
+          member => member?.phone !== account?.phone,
+        );
+        await Promise.all(
+          membersToNotify.map(async member => {
+            if (member)
+              await messageGateway.sendMessage(
+                Template.create(adjustPhone(member.phone), {
+                  name: 'registered_expense',
+                  language: {
+                    code: 'pt_BR',
+                  },
+                  components: [
+                    {
+                      type: 'body',
+                      parameters: [
+                        {
+                          type: 'text',
+                          text: account?.accountData.name,
+                        },
+                        {
+                          type: 'text',
+                          text: account?.accountData.temporaryGroupExpense
+                            .description,
+                        },
+                        {
+                          type: 'text',
+                          text: group?.name,
+                        },
+                        {
+                          type: 'text',
+                          text: `R$ ${account?.accountData.temporaryGroupExpense.amount}`,
+                        },
+                      ],
+                    },
+                  ],
+                }),
+              );
+          }),
+        );
         account = await accountService.updateAccount(message.from, {
           temporaryGroupExpense: {
             amount: '',

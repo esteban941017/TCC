@@ -26,6 +26,7 @@ import Reaction, {
   ReactionContent,
 } from '../../src/domain/MessageTypes/Reaction';
 import Sticker, { StickerContent } from '../../src/domain/MessageTypes/Sticker';
+import Template from '../../src/domain/MessageTypes/Template';
 import Text, { TextContent } from '../../src/domain/MessageTypes/Text';
 import Video, { VideoContent } from '../../src/domain/MessageTypes/Video';
 
@@ -407,5 +408,51 @@ describe('Message domain test', () => {
     expect(outputCreateMessage.to).toBe(`+${inputCreateMessage.to}`);
     expect(outputCreateMessage.type).toBe(MessageTypes.VIDEO);
     expect(outputCreateMessage.video).toEqual(inputCreateMessage.content);
+  });
+
+  test('Should create a template message', () => {
+    const inputCreateMessage = {
+      to: '5531990723700',
+      content: {
+        name: 'registered_expense',
+        language: {
+          code: 'pt_BR',
+        },
+        components: [
+          {
+            type: 'body',
+            parameters: [
+              {
+                type: 'text',
+                text: 'Esteban',
+              },
+              {
+                type: 'text',
+                text: 'Cerveja',
+              },
+              {
+                type: 'text',
+                text: 'Viajem',
+              },
+              {
+                type: 'text',
+                text: 'R$ 350.00',
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    const outputCreateMessage = Template.create(
+      inputCreateMessage.to,
+      inputCreateMessage.content,
+    );
+    console.dir(outputCreateMessage, { depth: null });
+    expect(outputCreateMessage.messaging_product).toBe('whatsapp');
+    expect(outputCreateMessage.recipient_type).toBe('individual');
+    expect(outputCreateMessage.to).toBe(`+${inputCreateMessage.to}`);
+    expect(outputCreateMessage.type).toBe(MessageTypes.TEMPLATE);
+    expect(outputCreateMessage.template).toEqual(inputCreateMessage.content);
   });
 });
