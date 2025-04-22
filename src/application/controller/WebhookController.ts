@@ -61,6 +61,7 @@ routes.post('/test', async (req, res) => {
 routes.post('/test-load', async (req, res) => {
   try {
     const webhookHandlerResponse = await handlerMock(req);
+    console.log(webhookHandlerResponse);
     return res
       .status(webhookHandlerResponse.statusCode)
       .json(webhookHandlerResponse.body);

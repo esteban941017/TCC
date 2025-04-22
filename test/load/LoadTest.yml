@@ -1,5 +1,5 @@
 config:
-  target: 'http://localhost:8000/meu-cofrinho'
+  target: 'https://5g4szryhme.execute-api.us-east-1.amazonaws.com/dev/meu-cofrinho'
   phases:
     - duration: 60
       arrivalRate: 50 # Começa já com 50 req/s
@@ -42,3 +42,34 @@ scenarios:
                             body: 'Text test message'
                           type: 'text'
                     field: 'messages'
+# SOFT
+#   phases:
+#     - duration: 60 # 1 minuto
+#       arrivalRate: 10 # Começa com 10 requisições por segundo
+#       rampTo: 50 # Aumenta gradualmente até 50
+#       name: 'Aquecimento'
+#     - duration: 60 # 1 minuto de carga máxima
+#       arrivalRate: 100 # Pico de 100 requisições por segundo
+#       name: 'Pico de carga'
+#     - duration: 30 # 30 segundos de "resfriamento"
+#       arrivalRate: 30
+#       name: 'Resfriamento'
+#   defaults:
+#     headers:
+#       Content-Type: application/json
+
+# HEAVY
+#   phases:
+#     - duration: 60
+#       arrivalRate: 50 # Começa já com 50 req/s
+#       rampTo: 150 # Aumenta até 150 req/s
+#       name: 'Carga progressiva'
+#     - duration: 90
+#       arrivalRate: 250 # Pico com 250 req/s
+#       name: 'Pico intenso'
+#     - duration: 30
+#       arrivalRate: 50 # Resfriamento
+#       name: 'Desaceleração'
+#   defaults:
+#     headers:
+#       Content-Type: application/json

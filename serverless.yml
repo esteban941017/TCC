@@ -21,6 +21,7 @@ functions:
   Api:
     handler: src/main.ApiHandler
     timeout: 30
+    reservedConcurrency: 100
     events:
       - http:
           method: ANY
