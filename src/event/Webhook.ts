@@ -34,9 +34,9 @@ messageGateway = new MessageGateway();
 export const handler = async (event: any): Promise<any> => {
   try {
     const message =
-      typeof event.body === 'string'
-        ? getMessageVariables(JSON.parse(event.body))
-        : getMessageVariables(event.body);
+      typeof event.Records[0].body === 'string'
+        ? getMessageVariables(JSON.parse(event.Records[0].body))
+        : getMessageVariables(event.Records[0].body);
 
     console.log(JSON.stringify(message));
 
@@ -984,9 +984,9 @@ export const handler = async (event: any): Promise<any> => {
 export const handlerMock = async (event: any): Promise<any> => {
   try {
     const message =
-      typeof event.body === 'string'
-        ? getMessageVariables(JSON.parse(event.body))
-        : getMessageVariables(event.body);
+      typeof event.Records[0].body === 'string'
+        ? getMessageVariables(JSON.parse(event.Records[0].body))
+        : getMessageVariables(event.Records[0].body);
 
     console.log(JSON.stringify(message));
 

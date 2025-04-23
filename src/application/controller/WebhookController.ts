@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { HttpStatusCodes } from '../util/HttpStatusCodes';
 import { handler, handlerMock } from '../../event/Webhook';
+import SqsAdapter from '../../infra/sqs/SqsAdapter';
 
 const routes = Router();
 const verificationToken = process.env.META_VERIFICATION_TOKEN;
@@ -32,10 +33,13 @@ routes.get('/', async (req, res) => {
 
 // routes.post('/', async (req, res) => {
 //   try {
-//     const webhookHandlerResponse = await handler(req);
+//     const sqsAdapter = new SqsAdapter(String(process.env.QUEUE_URL));
+//     const response = await sqsAdapter.publish(req.body);
+//     if (response && response.$metadata && response.$metadata.httpStatusCode)
+//       return res.status(response.$metadata.httpStatusCode).json('OK');
 //     return res
-//       .status(webhookHandlerResponse.statusCode)
-//       .json(webhookHandlerResponse.body);
+//       .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+//       .json({ message: 'Internal Server Error' });
 //   } catch (error) {
 //     console.error(error);
 //     return res
@@ -46,10 +50,13 @@ routes.get('/', async (req, res) => {
 
 routes.post('/test', async (req, res) => {
   try {
-    const webhookHandlerResponse = await handler(req);
+    const sqsAdapter = new SqsAdapter(String(process.env.QUEUE_URL));
+    const response = await sqsAdapter.publish(req.body);
+    if (response && response.$metadata && response.$metadata.httpStatusCode)
+      return res.status(response.$metadata.httpStatusCode).json('OK');
     return res
-      .status(webhookHandlerResponse.statusCode)
-      .json(webhookHandlerResponse.body);
+      .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Internal Server Error' });
   } catch (error) {
     console.error(error);
     return res
@@ -58,20 +65,24 @@ routes.post('/test', async (req, res) => {
   }
 });
 
-routes.post('/test-load', async (req, res) => {
-  try {
-    const webhookHandlerResponse = await handlerMock(req);
-    console.log(webhookHandlerResponse);
-    return res
-      .status(webhookHandlerResponse.statusCode)
-      .json(webhookHandlerResponse.body);
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: 'Internal Server Error' });
-  }
-});
+//UNCOMMENT FOR LOAD TESTS
+
+// routes.post('/test-load', async (req, res) => {
+//   try {
+//     const sqsAdapter = new SqsAdapter(String(process.env.QUEUE_URL));
+//     const response = await sqsAdapter.publish(req.body);
+//     if (response && response.$metadata && response.$metadata.httpStatusCode)
+//       return res.status(response.$metadata.httpStatusCode).json('OK');
+//     return res
+//       .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+//       .json({ message: 'Internal Server Error' });
+//   } catch (error) {
+//     console.error(error);
+//     return res
+//       .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+//       .json({ message: 'Internal Server Error' });
+//   }
+// });
 
 export default routes;
 

@@ -32,6 +32,16 @@ functions:
           path: /
           cors: false
 
+  HandleMessage:
+    handler: src/main.MessageHandler
+    timeout: 900
+    reservedConcurrency: 100
+    maximumRetryAttempts: 2
+    events:
+      - sqs:
+          arn: ${ssm:${self:custom.ssmPrefix}/MESSAGE_QUEUE_ARN}
+          batchSize: 1
+
 custom: ${file(./serverless/custom/variables.yml)}
 
 resources:

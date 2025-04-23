@@ -11,6 +11,9 @@ config:
     - duration: 30
       arrivalRate: 50 # Resfriamento
       name: 'Desaceleração'
+  http:
+    keepAlive: true
+    timeout: 29000
   defaults:
     headers:
       Content-Type: application/json

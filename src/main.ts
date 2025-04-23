@@ -8,6 +8,7 @@ import AccountRepository from './application/repository/AccountRepository';
 import AccountService from './service/AccountService';
 import GroupRepository from './application/repository/GroupRepository';
 import GroupService from './service/GroupService';
+import { handler, handlerMock } from './event/Webhook';
 
 const httpServer = new HttpServer();
 if (process.env.NODE_ENV === 'local') httpServer.start(8000);
@@ -29,5 +30,6 @@ let groupRepository: GroupRepository;
 groupRepository = new GroupRepository(groupDbTableGateway);
 let groupService: GroupService;
 groupService = new GroupService(groupRepository);
+let MessageHandler = handler;
 
-export { ApiHandler, accountService, groupService };
+export { ApiHandler, accountService, groupService, MessageHandler };

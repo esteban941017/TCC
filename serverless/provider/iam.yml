@@ -12,8 +12,12 @@ statements:
     Resource:
       - '${ssm:${self:custom.ssmPrefix}/ACCOUNT_TABLE_ARN}*'
       - '${ssm:${self:custom.ssmPrefix}/GROUP_TABLE_ARN}*'
-#   - Effect: Allow
-#     Action:
-#       - sqs:SendMessage
-#       - sqs:GetQueueAttributes
-#     Resource: '*'
+  - Effect: Allow
+    Action:
+      - sqs:SendMessage
+      - sqs:SendMessageBatch
+      - sqs:DeleteMessage
+      - sqs:ReceiveMessage
+      - sqs:GetQueueAttributes
+    Resource:
+      - '${ssm:${self:custom.ssmPrefix}/MESSAGE_QUEUE_ARN}*'

@@ -4,3 +4,4 @@ API_KEY: ${self:custom.secrets.API_KEY}
 PHONE_NUMBER_ID: ${self:custom.secrets.PHONE_NUMBER_ID}
 ACCOUNT_TABLE: ${self:custom.secrets.ACCOUNT_TABLE}
 GROUP_TABLE: ${self:custom.secrets.GROUP_TABLE}
+QUEUE_URL: ${self:custom.secrets.QUEUE_URL}
