@@ -448,7 +448,6 @@ describe('Message domain test', () => {
       inputCreateMessage.to,
       inputCreateMessage.content,
     );
-    console.dir(outputCreateMessage, { depth: null });
     expect(outputCreateMessage.messaging_product).toBe('whatsapp');
     expect(outputCreateMessage.recipient_type).toBe('individual');
     expect(outputCreateMessage.to).toBe(`+${inputCreateMessage.to}`);

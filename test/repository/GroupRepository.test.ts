@@ -1,4 +1,3 @@
-import AccountRepository from '../../src/application/repository/AccountRepository';
 import GroupRepository from '../../src/application/repository/GroupRepository';
 import Group from '../../src/domain/Group';
 import DynamoDBTableGateway from '../../src/infra/database/DynamoDBTableGateway';

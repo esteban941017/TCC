@@ -972,6 +972,7 @@ export const handler = async (event: any): Promise<any> => {
       );
       returnMessage = 'Invalid message sent';
     }
+    console.log(returnMessage);
     return {
       statusCode: HttpStatusCodes.OK,
       body: returnMessage,
