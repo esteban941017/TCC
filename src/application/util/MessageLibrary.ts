@@ -30,7 +30,7 @@ export const MessageLibrary = {
     'Antes de registrar uma despesa, você deve registrar pelo menos uma categoria',
   listCategories: `Categorias:\n\n`,
   noRegisteredGroups:
-    'Antes de registrar uma despesa, você deve fazer parte de um grupo',
+    'Antes de registrar ou consultar uma despesa grupal, você deve fazer parte de um grupo',
   registerGroup: `O que deseja fazer?
     
   1. Registrar um novo grupo
